@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Little Ones Collection Page V2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;family=Noto+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#bd870a",
+                        "background-light": "#ffffff",
+                        "background-dark": "#1b1a18",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Noto Sans", sans-serif;
+        }
+        .font-display {
+            font-family: "Noto Serif", serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#181611] dark:text-white transition-colors duration-300">
+<!-- Navigation -->
+<div class="layout-container flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 md:px-20 py-6">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<span class="material-symbols-outlined text-3xl">diamond</span>
+</div>
+<h2 class="text-[#181611] dark:text-white text-xl font-display font-bold leading-tight tracking-[-0.015em] uppercase">Luxury Brand</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-[#181611] dark:text-white/80 text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Collections</a>
+<a class="text-[#181611] dark:text-white/80 text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Heritage</a>
+<a class="text-[#181611] dark:text-white/80 text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Our Story</a>
+</nav>
+<div class="flex gap-4">
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-primary/5 dark:bg-primary/20 text-primary">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<!-- Headline Section -->
+<div class="max-w-7xl mx-auto px-4 pt-20 pb-16">
+<h1 class="font-display text-[#181611] dark:text-white tracking-[0.2em] text-[42px] md:text-[64px] font-extralight leading-tight text-center uppercase">
+                    Little Ones
+                </h1>
+<div class="w-16 h-[1px] bg-primary mx-auto mt-8"></div>
+</div>
+<!-- Collection Grid -->
+<div class="max-w-[1400px] mx-auto px-6 md:px-20 pb-20">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
+<!-- Item 1 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[4/5] overflow-hidden bg-[#f7f6f4] dark:bg-white/5">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Young Pakistani boy in ivory silk Sherwani posing in sunlit library" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDKLejFF4G14aIX1Ybd9ARxoJzx-nt2Q7uCMD7X-jOtx12dV_fjQtktlrv8Ze5E8qBNirRbbd4yHu3RP9yz5jJURVQuJ87TWWCjY3DPcqgADSMSMRm9hhkfyoPvrZitT5gU_tzvnRfKUNZ-34K3qdkPRJEdqQ921_vfaDVi875MrK7Ju9335iBsNKWADvJAg3Z_csjNpoiS2ycEZI0PermAD-bVNibU7S-SIuMA_rombQS5UPODZNjEWI8V9rhv6eV2bad2cPNzVaU");'>
+</div>
+</div>
+<div class="mt-6 flex flex-col items-center gap-4">
+<span class="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">The Heirloom Collection</span>
+<button class="px-8 py-3 border border-primary/30 text-[#181611] dark:text-white text-[11px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300">
+                                Price on Request
+                            </button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[4/5] overflow-hidden bg-[#f7f6f4] dark:bg-white/5">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Young girl in mint green embroidered Ghagra standing in marble hallway" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAnAY_tPDz657acRjTMNBCorjCr8t0GH1-dIMTQinWbm7OzWNA7ary1N6eYeVJhDL-pot4zKFL1ubaW9nahMDza7_6f_PqoEPRnfdZB87JJdXNpGAtPIrn-4Gs48UHhE4U5v_ReiYwkk2K_hDd8GXLA0fx90r32HGaR4gLvee9MjOim7AL5BjQWXPm2TWJ5zsfdUjIfiSyTNtiq2AqrAahgFoB6Fb37CqP6ZHS5E9-Ji_qpo9VhipfXXO3ocl-eFDiz92ODugk3zKA");'>
+</div>
+</div>
+<div class="mt-6 flex flex-col items-center gap-4">
+<span class="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">Noor-e-Kashmir</span>
+<button class="px-8 py-3 border border-primary/30 text-[#181611] dark:text-white text-[11px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300">
+                                Price on Request
+                            </button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[4/5] overflow-hidden bg-[#f7f6f4] dark:bg-white/5">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Two siblings in matching traditional pastel luxury outfits sitting on vintage sofa" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBW0g9EoCcc4xcglexA5yyJVHwv2Pj4zUHOs_cpRFj2KOglGvBusHC1lMapESVu27mPh4tKx1zYhmzlUCwAfJAxW2szt-owGXiKv8308YSDmtw_UCHQ2nTU8qGOYxj9mTeEt3FuMVfbj4u9TtokMhlstTWF2TINMS-l0YEcVWv2DKMkVjHhnt4sgvlp4TKT_OqCjwo4rnVOfRITjNO7Yn3unpca66fpu7wCQQiOAG9_RdwIgOEL08ny4pScvUTaEPVsFNIqc2Zt5NA");'>
+</div>
+</div>
+<div class="mt-6 flex flex-col items-center gap-4">
+<span class="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">Siblings Couture</span>
+<button class="px-8 py-3 border border-primary/30 text-[#181611] dark:text-white text-[11px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300">
+                                Price on Request
+                            </button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[4/5] overflow-hidden bg-[#f7f6f4] dark:bg-white/5">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Pakistani boy in navy blue embroidered sherwani against minimalist archway" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOuVof1Su7zE3B3P4YHHGiwnkvEPelydooL8ttNMRvP_wDKYJdDtrDNHV3WmJ6tR59fulE3f4_twI5oWHfmhMdSaAjRHpMV0UHYNK3y7VLy3b4uOe2fpNIefFfnCLP2e-mo7Ck8YsY_JZeLIwBSs_-5EJkPwwNxRvJPfCysTGBNVvUIow46mjJczUwCIFTPQeOzCbKUbfhOoQ6-tH4zzQeOtco0CLb3EVHNAofsXqyoDfnLC6HgirazBFOdeh9ydu2gGrZAxxygB0");'>
+</div>
+</div>
+<div class="mt-6 flex flex-col items-center gap-4">
+<span class="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">Modern Prince</span>
+<button class="px-8 py-3 border border-primary/30 text-[#181611] dark:text-white text-[11px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300">
+                                Price on Request
+                            </button>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[4/5] overflow-hidden bg-[#f7f6f4] dark:bg-white/5">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Young girl in delicate blush pink lehenga with intricate handwork" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwlPrs69MDQwXqBwXBQizkxjMk8TbX1yqAF9VJgy1Jvgd2bDnlxMONJbWJ6M0w9qZjm9egI9VZ384330q26nh2V_XRpzxhtxndBf3iKPtsgeutT7k-x_TOu-oUBrci5cZuThOq427U1hitysGA46L2wQwQdqHt0h8XNMPVsTvlMCOPxOIuSwtWYnEeNOZFDeqMJD7v6ul_5h5ZaZKq2UHz_hQhliFONEBm2IhpHjgdMR7yOITaxB2ZfygDHUOeJpLOLyvb-9z-MA4");'>
+</div>
+</div>
+<div class="mt-6 flex flex-col items-center gap-4">
+<span class="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">Velvet &amp; Silk</span>
+<button class="px-8 py-3 border border-primary/30 text-[#181611] dark:text-white text-[11px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300">
+                                Price on Request
+                            </button>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[4/5] overflow-hidden bg-[#f7f6f4] dark:bg-white/5">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Young Pakistani child in gold and cream traditional festive wear" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0OuPfcmPkerKceBQkAVLn9UYq2m6MicqdSm9-iy8r5UO11Bq7cOm7cn5o4M44Em8BIOqtLHqm47soWxOCwA0u2TRstRuGhpr_ZjazpRgZHFQ2BPmLh1VWIWTcNL2BSAE4qT-bxJxuNWIWfYRuLkmcp5Kl4AeoQ3soGv8axR4IWK_l4q90dyF1U0TowhoDzXF1X3ZwOlgaJB0yMQCFEDMqK1gk34OYirGpdrofiGZZfEcuewPd-5GKL4uJ88WW5NsMc8QwPzJcju8");'>
+</div>
+</div>
+<div class="mt-6 flex flex-col items-center gap-4">
+<span class="text-[10px] tracking-[0.3em] uppercase text-primary font-bold">Royal Kids</span>
+<button class="px-8 py-3 border border-primary/30 text-[#181611] dark:text-white text-[11px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all duration-300">
+                                Price on Request
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Call to Action -->
+<div class="bg-primary/5 dark:bg-white/5 py-24 flex flex-col items-center text-center px-4">
+<h2 class="font-display text-[#181611] dark:text-white text-3xl mb-4">Create a Bespoke Experience</h2>
+<p class="text-[#181611]/60 dark:text-white/60 max-w-lg mb-10 text-sm leading-relaxed font-light">
+                    Schedule a private consultation at our atelier for custom fittings and personalized embroidery selections for your little ones.
+                </p>
+<button class="bg-primary text-white px-12 py-5 text-sm font-bold uppercase tracking-[0.2em] rounded-sm hover:brightness-110 transition-all shadow-xl shadow-primary/20">
+                    Book an Appointment
+                </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-background-dark text-white py-16 px-6 md:px-20">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+<div class="flex flex-col items-center md:items-start gap-4">
+<span class="material-symbols-outlined text-4xl text-primary">auto_awesome</span>
+<p class="text-xs uppercase tracking-[0.3em] font-light text-white/40">Established 1994</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+<a class="text-white/60 hover:text-primary text-[11px] uppercase tracking-widest transition-colors" href="#">Privacy Policy</a>
+<a class="text-white/60 hover:text-primary text-[11px] uppercase tracking-widest transition-colors" href="#">Terms</a>
+<a class="text-white/60 hover:text-primary text-[11px] uppercase tracking-widest transition-colors" href="#">Contact</a>
+<a class="text-white/60 hover:text-primary text-[11px] uppercase tracking-widest transition-colors" href="#">Shipping</a>
+</div>
+<div class="flex justify-center md:justify-end gap-6">
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-lg">camera</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-lg">share</span>
+</a>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-white/5 text-center">
+<p class="text-white/30 text-[10px] uppercase tracking-[0.4em]">© 2024 LUXURY PAKISTANI FASHION. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+</div>
+</body></html>

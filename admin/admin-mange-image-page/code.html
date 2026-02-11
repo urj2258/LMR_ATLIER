@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Images | Admin Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#bd870a",
+                        "neutral-gold": "#e9e4d9",
+                        "background-light": "#fcfaf7",
+                        "charcoal": "#121212",
+                        "border-subtle": "#eeeeee",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "sm": "2px",
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20; }
+        .toggle-checkbox:checked {
+            @apply right-0 border-primary bg-primary;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            @apply bg-primary/10;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-charcoal min-h-screen flex">
+<aside class="w-64 bg-white border-r border-border-subtle flex flex-col fixed h-full">
+<div class="p-8 border-b border-border-subtle">
+<div class="flex items-center gap-3 mb-2">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<span class="font-serif font-bold tracking-[0.2em] text-sm uppercase">Luxe Admin</span>
+</div>
+</div>
+<nav class="flex-grow py-8">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-4 px-8 py-3 text-[11px] uppercase tracking-widest text-black/40 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-8 py-3 text-[11px] uppercase tracking-widest text-primary font-bold border-r-2 border-primary bg-primary/5" href="#">
+<span class="material-symbols-outlined text-lg">image</span>
+                        Manage Images
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-8 py-3 text-[11px] uppercase tracking-widest text-black/40 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">collections</span>
+                        Collections
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-8 py-3 text-[11px] uppercase tracking-widest text-black/40 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</nav>
+<div class="p-8 border-t border-border-subtle">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-neutral-gold flex items-center justify-center text-[10px] font-bold">JD</div>
+<div>
+<p class="text-[10px] font-bold uppercase tracking-tight">John Doe</p>
+<p class="text-[9px] text-black/40 uppercase tracking-widest">Administrator</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-grow ml-64 p-12">
+<header class="flex justify-between items-end mb-12">
+<div>
+<nav class="text-[10px] uppercase tracking-widest text-black/40 mb-2">
+                    Portal / Imagery
+                </nav>
+<h1 class="text-3xl font-serif font-light tracking-tight">Manage Images</h1>
+</div>
+<button class="bg-charcoal text-white px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add Image
+            </button>
+</header>
+<div class="bg-white border border-border-subtle p-4 mb-6 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-black/30 text-lg">search</span>
+<input class="pl-10 pr-4 py-2 border-0 text-[11px] uppercase tracking-widest focus:ring-0 w-64 placeholder:text-black/20" placeholder="Search by title..." type="text"/>
+</div>
+<select class="border-0 text-[11px] uppercase tracking-widest focus:ring-0 text-black/60 bg-transparent">
+<option>All Collections</option>
+<option>Wedding Edit</option>
+<option>Bridal Edit</option>
+</select>
+</div>
+<div class="text-[10px] uppercase tracking-widest text-black/40">
+                Showing 24 of 156 images
+            </div>
+</div>
+<div class="bg-white border border-border-subtle shadow-sm overflow-hidden">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-border-subtle bg-neutral-gold/10">
+<th class="px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold text-black/60 w-24">Preview</th>
+<th class="px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold text-black/60">Image Details</th>
+<th class="px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold text-black/60">Collection</th>
+<th class="px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold text-black/60">Status</th>
+<th class="px-8 py-4 text-[10px] uppercase tracking-[0.2em] font-bold text-black/60 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-background-light/50 transition-colors">
+<td class="px-8 py-4">
+<div class="w-16 h-20 bg-neutral-gold overflow-hidden">
+<img alt="Thumbnail" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApBL78GXyf1KKQWvBG6Zc0Hzu7v7zf0wksyP9ZJJu_APxmviqVZVyH_s3vLFHc6MC5WFVlJqNahJ6pTy_nh4CVbrST3X3K9dcDz9Igx2Y-8otC2fEResZsON1SlrWKOrs5wLkeC4FI6-tEyzGqGZCbezIgeXlXudzg4JKaPuzREW_G--TsuzAjonukBXlv1qAcWu8LQ55QE5J4YDmTQcXMoH--CeAN3PTdCSV7I861pVarKanxwCSaKQQqwaUn07IBnaIzU_yKWd8"/>
+</div>
+</td>
+<td class="px-8 py-4">
+<p class="text-xs font-bold uppercase tracking-widest mb-1">Crimson Heritage Gown</p>
+<p class="text-[10px] text-black/40 italic">IMG_00842.jpg • 2.4 MB</p>
+</td>
+<td class="px-8 py-4">
+<span class="text-[10px] uppercase tracking-widest px-3 py-1 border border-primary/20 text-primary bg-primary/5">Wedding Edit</span>
+</td>
+<td class="px-8 py-4">
+<div class="flex items-center gap-3">
+<span class="text-[10px] uppercase tracking-widest font-medium text-black/40">Visible</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-black/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</td>
+<td class="px-8 py-4 text-right">
+<div class="flex justify-end gap-4">
+<button class="text-[10px] uppercase tracking-widest font-bold text-black/60 hover:text-primary transition-colors">Edit</button>
+<button class="text-[10px] uppercase tracking-widest font-bold text-[#cc3333] hover:text-red-700 transition-colors">Delete</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-background-light/50 transition-colors">
+<td class="px-8 py-4">
+<div class="w-16 h-20 bg-neutral-gold overflow-hidden">
+<img alt="Thumbnail" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_MpBgX0kXx3qCGQ16Wj_3EsBgyAGlhaA69oLYuOKleTfovz73P8RH2gmjrgMvdaOYaCO4k3s_uvrE7MaiOs_hVPEt98rreWNXVy6-KG3ZC0aQxz9gmnGSM1JU1pibZCPkbn04rAfxx3PxmeShjpGkA_dhAUaTPeFHFwiaHkEpAUICkKlIfETAd4LN43m7QhIdes7IkMlq7xdSd2h5neGmWJjlEYsImP0YSkFktjJ4Vdnyhf4ETPHHFAA1MEw0RAS1QtulnL34VVE"/>
+</div>
+</td>
+<td class="px-8 py-4">
+<p class="text-xs font-bold uppercase tracking-widest mb-1">Ivory Pearl Sherwani</p>
+<p class="text-[10px] text-black/40 italic">IMG_00845.jpg • 1.8 MB</p>
+</td>
+<td class="px-8 py-4">
+<span class="text-[10px] uppercase tracking-widest px-3 py-1 border border-black/10 text-black/60 bg-black/5">Bridal Edit</span>
+</td>
+<td class="px-8 py-4">
+<div class="flex items-center gap-3">
+<span class="text-[10px] uppercase tracking-widest font-medium text-black/40">Hidden</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-black/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</td>
+<td class="px-8 py-4 text-right">
+<div class="flex justify-end gap-4">
+<button class="text-[10px] uppercase tracking-widest font-bold text-black/60 hover:text-primary transition-colors">Edit</button>
+<button class="text-[10px] uppercase tracking-widest font-bold text-[#cc3333] hover:text-red-700 transition-colors">Delete</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-background-light/50 transition-colors">
+<td class="px-8 py-4">
+<div class="w-16 h-20 bg-neutral-gold overflow-hidden">
+<img alt="Thumbnail" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhTiucJ8HWGizxaDyUhXQSLwNnjB2QCBgklW6uaovYRllwBZ9kXZn5ZjHUFoAZxAgSWWKIyQP6XgXxWX5RlI6pOL-ERc5_CTVKU4QfEnt-ZnIUxk81mzHZn8j3glJeet_Z3kaQsPpJr78-ut4akQLDfRpMGdNG2OpwllKcYlT4ZosfdSKZlI8ttUOTlUJcXsrTlCN4dDPr31qP_yeKNUcW4cZSjEr5wuniWKxpdgYou51vE7LtTMdIwME_vEaxsHpqDxQVS2ul7VI"/>
+</div>
+</td>
+<td class="px-8 py-4">
+<p class="text-xs font-bold uppercase tracking-widest mb-1">Gold Zari Dupatta Detail</p>
+<p class="text-[10px] text-black/40 italic">IMG_00851.jpg • 3.1 MB</p>
+</td>
+<td class="px-8 py-4">
+<span class="text-[10px] uppercase tracking-widest px-3 py-1 border border-primary/20 text-primary bg-primary/5">Wedding Edit</span>
+</td>
+<td class="px-8 py-4">
+<div class="flex items-center gap-3">
+<span class="text-[10px] uppercase tracking-widest font-medium text-black/40">Visible</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-black/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</td>
+<td class="px-8 py-4 text-right">
+<div class="flex justify-end gap-4">
+<button class="text-[10px] uppercase tracking-widest font-bold text-black/60 hover:text-primary transition-colors">Edit</button>
+<button class="text-[10px] uppercase tracking-widest font-bold text-[#cc3333] hover:text-red-700 transition-colors">Delete</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-8 py-6 border-t border-border-subtle flex items-center justify-between bg-neutral-gold/5">
+<button class="text-[10px] uppercase tracking-widest font-bold text-black/40 hover:text-charcoal transition-colors">Previous</button>
+<div class="flex gap-4">
+<span class="text-[10px] font-bold text-primary">1</span>
+<span class="text-[10px] font-bold text-black/40 hover:text-charcoal cursor-pointer">2</span>
+<span class="text-[10px] font-bold text-black/40 hover:text-charcoal cursor-pointer">3</span>
+<span class="text-[10px] font-bold text-black/40">...</span>
+<span class="text-[10px] font-bold text-black/40 hover:text-charcoal cursor-pointer">12</span>
+</div>
+<button class="text-[10px] uppercase tracking-widest font-bold text-black/60 hover:text-charcoal transition-colors">Next Page</button>
+</div>
+</div>
+<footer class="mt-20 pt-8 border-t border-black/5 flex justify-between items-center text-[9px] uppercase tracking-[0.3em] text-black/30">
+<p>© 2026 LUXE ADMIN PORTAL. ARTISANAL EXCELLENCE.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+<a class="hover:text-primary transition-colors" href="#">Security</a>
+<a class="hover:text-primary transition-colors" href="#">API Docs</a>
+</div>
+</footer>
+</main>
+
+</body></html>

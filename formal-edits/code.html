@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Formal Edit Collection Page V1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#c9b483",
+                        "background-light": "#ffffff",
+                        "background-dark": "#2a2b2d",
+                    },
+                    fontFamily: {
+                        "display": ["Noto Serif", "serif"],
+                        "sans": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .serif-text {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#161513] dark:text-white antialiased">
+<!-- Top Navigation -->
+<header class="border-b border-[#f3f3f1] dark:border-white/10 px-6 lg:px-20 py-4 sticky top-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm z-50">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl">temple_hindu</span>
+<h1 class="serif-text text-xl font-bold tracking-tight uppercase">Luxury Pakistani Fashion</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8 uppercase text-[11px] font-semibold tracking-widest">
+<a class="hover:text-primary transition-colors" href="#">New Arrivals</a>
+<a class="hover:text-primary transition-colors" href="#">Bridal</a>
+<a class="text-primary underline underline-offset-8" href="#">Formal Edit</a>
+<a class="hover:text-primary transition-colors" href="#">Pret</a>
+<a class="hover:text-primary transition-colors" href="#">Sale</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center bg-[#f3f3f1] dark:bg-white/5 rounded px-3 py-1.5">
+<span class="material-symbols-outlined text-xl text-[#7f796c]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-32 md:w-48 placeholder:text-[#7f796c]" placeholder="Search" type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">person</span></button>
+<button class="hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-primary text-[9px] text-white rounded-full w-4 h-4 flex items-center justify-center font-bold">0</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-6 lg:px-20 py-10">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-8 text-[11px] uppercase tracking-widest text-[#7f796c] dark:text-white/60">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span>/</span>
+<span class="text-[#161513] dark:text-white">Formal Edit</span>
+</nav>
+<!-- Page Heading -->
+<div class="text-center mb-16 space-y-4">
+<h2 class="serif-text text-5xl md:text-7xl font-light tracking-tight dark:text-white">Formal Edit</h2>
+<p class="text-[#7f796c] dark:text-white/60 text-sm tracking-[0.2em] uppercase">Luxury Party Wear Collection</p>
+</div>
+<!-- 3-Column Editorial Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
+<!-- Item 1 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Pakistani model in emerald green pishwas suit standing in a sunlit gallery" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCUguB9Z2A50OgjhD3luUVs9Bq9P_gprtMWJV1_jbqIPBN3kVpoajJfIbjhIhRK8OfFaVWeZSxPe1sLpb4srHxICmyb7hcr1sTXrRbeW9bM9mRKTSf0J2cC2-5QlxnJhV8m0gMbAYn-E5KYLnz5S6yKr0Z9VS6tkAgnHqb4ZduCLEsbIB6DbUYP1sv9RSaVcB4yuDHMbsXteoMbgn2NaL8dQDYdC3WYzVGSMhbdP7L-Im1ccxJO_uLy32RxVVNDHofmKgPv2BRmBJU");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Zoya - Emerald Pishwas</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 2 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Elegant woman wearing an ivory kalidaar with silver embroidery in a minimalist ivory studio" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhlsFHMapU2AqU7GQMJ2XcfBfNrHF5k2qWJgB6i187yG4sB0kQa0IrBv5sjDEb4LGipKleHZcr-Pl1m2TpGv05rVUV5JIAJ3gsEObb7_go0OSOMcupOEnmggN5UsZ4vgJyEYF4aqu0vQtEq6xTYcpdCiKmUBG8T1hhwInhAsHPQrnwNeykLiye9WrQTUih9gZJ0MdtYPA_hN3KuCRS-aaLZ81_ZCRlVo4auRMaKEyjo3Wztj7k6eH9paQz5zv2CFHCy4ub6Or_4us");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Noor - Ivory Kalidaar</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 3 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Solo model in a teal silk set with intricate handcrafted patterns against a dark wall" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9MNnv3LPrOjXGlD3Jx07mTl1lwpA5gl7fBGeCuS8Y-eW0usB4bwZaC5qI739Dr5z5tfuvBp1-pOSAbPktxLZ4kW23nk_EciE4-VlAeI0adIbv42OoG6f-umMsRCGONU2VZtnDT1OR_BJ1V1J2p01YVZRGnZ4gF57RnYAb07IgPBOFmsL2l6XjzIEApD3OkenZj4evBLERXjTEQyqnW2Vcx-SPIV47P8X8gRvzpKhDqxIma2SkEYBQbcb-HJnECpQkQpgULlthQKM");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Mira - Teal Silk Set</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 4 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Pakistani female model in a champagne maxi dress standing in a luxury marble hallway" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBZvU0dXncakvT_LBzXNOj16ycTNDAKwCGrBo69Tg6DIaVqZXBMxCygJWsqGecpC7vM5afzFZdR6bWdpqPHrww-oNV-TkHQ4rRaFx6BTEy3Os_YO-2z_C3A9K5mFe41sH2AhRoPmAL7WGQdM0nKfoS4zpOz_x6hA68M8oWjI0sIbKzSYW9pp2cQlMS9y1pQoIsYyFT8aszJTzziUGZiLsOSxFctAb2nV37sd7slXcvAc2oVcvu30BL_EKHKBft_pGb3m9JC8KBEu1U");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Aara - Champagne Maxi</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 5 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Editorial shot of a model in a midnight blue kaftan with gold embroidery" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBl6ntR2q5kkga4iw-Yyq9ksNTBENn6TQgcaU3FX0IMBYEJzAExaF7_cgBiLXTHlo0PeGzneCiTC-1DGhQs9EyV2vi7vWpW7eZk5EcDxxhTApsinhQHSlFd_1-4Y063pV2UVO0g-JKyala060xSNBaIVGoqDSNnCkRbXS7TGdjdymy_MJXkS_VfWa1P_pRkmxel7B7ZDa2aFcZLvH0d7tEiwR6bkBtVMre370-usOFgHLX6unhqzwgQIv2grCQhNYx_JR1nqD-dj0");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Zale - Midnight Blue Kaftan</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 6 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Model wearing a pastel pink angrakha with delicate embroidery in a soft natural setting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCWK60ROp2EWzPE4scrAC6oJPS3rLVGZOWR4EfsB3Dqd7Fdg6CdfmaVExMgrq3eObIIVRnmJfuJsIkBNBTxWm5Q21T649a2IYpKrb6kUKAKmV1oJR28uTZ2RHQWVf3XoBQZL5iIl6-21khGTckf-C-9cUIYitgv5B34-l7s2z6z85BTwYlQEz4lu5WNegYGyqLrcSDcE_JV2hV5HmH--LKe3Yg-lziDEkgmJSr83I4f3llXHdZGK6otFF7RtKAARbDIX_fxfgQRhAM");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Haya - Pastel Pink Angrakha</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 7 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Solo Pakistani model in a gold tissue shirt with intricate sleeve detailing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3jWuYGSrMyt1wC1raN5nDTa_qotCQYvQufviexzuwR-GVMB8bRK0HMv0i-qkG8_rOvEDi-noDhrRbjJq9kA9FwqwCJdH1LnntY61ejzmmXFgj7YBR7rlZnepip0xyINIpXfL1hjaOHJEawzZ4Vy5qmJDtz7pHRCsl-rpnEu7jHMTNmnrGF-R126c34fkRZ9vuHjufiwfn-j6LFMkfVmdxTx1dOqM0oO75xXcSxNi6ECckjxP67oYe3754TGKR6bANHIJJ58d6hoo");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Ziva - Gold Tissue Shirt</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 8 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Model in a silver grey long dress with modern traditional embroidery in a neutral room" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvgxuItsZ9P4riksPDUuaCmw96OWEZV0HTba-mbl5d8liaMeNnOhA3dFdeZaoxiSQFI-SMBt4UfVvqRdsvcwqkTrdlJBEvIQggM1Gb3GZbE5yJkhBIHpaBpnQwHjdwDBIO5K2mvWDOcs941HWDiiejSzWkKK_sj7cM27SGZaFx73rkKslkTYYhpWzYcUwwuXHDiCko35Qo38VFGmoYch_m0icfC5-Y_8s1C3re_kFZ5paA7wvZUGTGTh1rIfWzP2qQOLI869yVLZo");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Layla - Silver Grey Dress</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+<!-- Item 9 -->
+<div class="group flex flex-col items-center">
+<div class="w-full aspect-[3/4] overflow-hidden mb-6 bg-[#f8f8f8]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Pakistani female model in a ruby red formal set with luxury handwork details" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDf-Dhi9w8B2cySRKj78TmVMuT5iFnW-bQ_ZQZZJnfyjkY3D3N_e4UZ2B8hb726vMk_YHFljZa6_Xv65IO0xB6A-8AVzaqo6aXq0itgmbfumaDNNuo10d4v4sRNJxC5Z3ckk4VBUzwzz4F3mMopreVoNiGn0Q_jzef0IY9rfHWVN5Sz3syPFVulP7oF5aZZEZtbMPD5vBJ5uEcD4vnXAaRntfHAkX9Kw3JIL0IGJPli4R02oWybDxvQUzH---Xptak_gT29hScM5Vc");'></div>
+</div>
+<h3 class="serif-text text-xl mb-4 dark:text-white">Zara - Ruby Red Set</h3>
+<button class="w-full bg-primary hover:bg-primary/90 text-[#161513] text-xs font-bold uppercase tracking-[0.2em] py-4 transition-all duration-300">
+                    Price on Request
+                </button>
+</div>
+</div>
+<!-- Appointment Section -->
+<div class="mt-32 mb-20 text-center py-20 border-t border-[#f3f3f1] dark:border-white/10">
+<h4 class="serif-text text-3xl mb-8 dark:text-white italic">Experience Our Collections in Person</h4>
+<button class="inline-flex items-center gap-4 bg-[#161513] dark:bg-primary text-white dark:text-[#161513] px-12 py-5 text-sm font-bold uppercase tracking-[0.3em] hover:opacity-90 transition-opacity">
+                Book an Appointment
+                <span class="material-symbols-outlined text-xl">calendar_month</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-background-dark text-white/80 py-20 px-6 lg:px-20 border-t border-white/5">
+<div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-6">
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-3xl">temple_hindu</span>
+<h2 class="serif-text text-xl font-bold tracking-tight uppercase">Luxury Pakistani Fashion</h2>
+</div>
+<p class="text-xs leading-relaxed max-w-xs uppercase tracking-widest opacity-60">
+                    Curating the finest handcrafted luxury formal wear since 1994. Tradition meeting contemporary elegance.
+                </p>
+</div>
+<div>
+<h5 class="text-white text-xs font-bold uppercase tracking-[0.2em] mb-8">Collections</h5>
+<ul class="space-y-4 text-[11px] uppercase tracking-widest">
+<li><a class="hover:text-primary transition-colors" href="#">Bridal Couture</a></li>
+<li><a class="hover:text-primary transition-colors text-primary" href="#">Formal Edit</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Pret-a-Porter</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Silk Series</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-white text-xs font-bold uppercase tracking-[0.2em] mb-8">Service</h5>
+<ul class="space-y-4 text-[11px] uppercase tracking-widest">
+<li><a class="hover:text-primary transition-colors" href="#">Bespoke Couture</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Book Appointment</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Size Guide</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-white text-xs font-bold uppercase tracking-[0.2em] mb-8">Newsletter</h5>
+<p class="text-[11px] uppercase tracking-widest mb-6 opacity-60">Join for private previews &amp; collection launches.</p>
+<div class="flex border-b border-white/20 pb-2">
+<input class="bg-transparent border-none focus:ring-0 text-xs w-full p-0 placeholder:text-white/40 uppercase tracking-widest" placeholder="Email Address" type="email"/>
+<button class="material-symbols-outlined text-xl hover:text-primary transition-colors">arrow_forward</button>
+</div>
+</div>
+</div>
+<div class="max-w-[1440px] mx-auto mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-[9px] uppercase tracking-[0.3em] opacity-40">© 2024 LUXURY PAKISTANI FASHION. ALL RIGHTS RESERVED.</p>
+<div class="flex gap-8 items-center opacity-60">
+<a class="material-symbols-outlined text-lg hover:text-primary transition-colors" href="#">language</a>
+<a class="material-symbols-outlined text-lg hover:text-primary transition-colors" href="#">share</a>
+<a class="material-symbols-outlined text-lg hover:text-primary transition-colors" href="#">location_on</a>
+</div>
+</div>
+</footer>
+</body></html>

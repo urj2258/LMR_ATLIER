@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LMR ATELIER | Luxury Pakistani Couture
 
-## Getting Started
+![LMR ATELIER Banner](https://placehold.co/1200x400/121212/bd870a?text=LMR+ATELIER)
 
-First, run the development server:
+> **Handcrafted Luxury Karhai - A heritage of artisanal excellence.**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**LMR ATELIER** is a digital boutique dedicated to the fine art of Pakistani couture. This platform bridges the gap between traditional craftsmanship and modern digital accessibility, bringing the exquisite "Karhai" work of our heritage directly to a global audience.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌟 The Vision
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*“Honoring the past, dressing the future.”*
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is a labor of love, born from the desire to expand a lifelong commitment to the fashion business. By digitalizing the atelier, we are ensuring that the intricate handcrafted details and the heritage of our artisans are preserved and celebrated in the modern era.
 
-## Learn More
+## ✨ Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Exquisite Collections:**
+  - **Bridal Edit:** Timeless elegance for the modern bride.
+  - **Wedding Edit:** Grandeur and grace for every ceremony.
+  - **Formal Edit:** Sophisticated silhouettes for evening wear.
+  - **Menswear:** Traditional styles with a contemporary edge.
+  - **Little Ones:** Delightful couture for the smallest members of the family.
+- **Visual Storytelling:** Immersive high-definition product galleries powered by **Cloudinary**.
+- **Seamless Experience:** A fast, responsive shop built with **Next.js** and **Tailwind CSS**.
+- **Personalized Access:** Secure customer and admin portals integrated with **Firebase**.
+- **Interactive Connectivity:** Direct WhatsApp integration for personalized consultations.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend:** [Next.js 15](https://nextjs.org/) (App Router), [React 19](https://react.dev/)
+- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/) (Animations)
+- **Backend/Database:** [Firebase](https://firebase.google.com/) (Authentication & Realtime Database)
+- **Media Management:** [Cloudinary](https://cloudinary.com/)
+- **Fonts:** Playfair Display, Bodoni Moda, Noto Nastaliq Urdu
 
-## Deploy on Vercel
+## 🚀 Getting Started
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Prerequisites
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Node.js 20+
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/lmr-atelier.git
+   cd lmr-atelier/frontend
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup:**
+   Create a `.env.local` file and add your credentials:
+   ```env
+   NEXT_PUBLIC_FIREBASE_API_KEY=your_key
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_name
+   # Add other required keys from .env.example
+   ```
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+---
+
+*Crafted with passion for LMR ATELIER.*

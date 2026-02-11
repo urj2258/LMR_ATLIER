@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-urdu: var(--font-urdu), serif;
+  --font-bodoni: var(--font-bodoni), serif;
+
+  --color-gold-champagne: #bd870a;
+  --color-off-white: #fcfaf7;
+  --color-cream-light: #f8f5f0;
+  --color-charcoal: #121212;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--color-off-white);
+  --foreground: var(--color-charcoal);
+
+  --section-bg: var(--color-cream-light);
+  --accent: var(--color-gold-champagne);
+  --footer-bg: #000000;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+}
+
+.btn-gold {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.75rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn-gold:hover {
+  opacity: 0.9;
+}
+
+.btn-black {
+  background-color: black;
+  color: white;
+  padding: 0.75rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn-black:hover {
+  opacity: 0.9;
 }
