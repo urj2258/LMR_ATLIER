@@ -1,13 +1,31 @@
 
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { getProductsByCategory } from "@/utils/db";
+import CollectionRow from "@/components/CollectionRow";
+import { getAllProductsByCategory } from "@/utils/db";
 
 export const dynamic = 'force-dynamic';
 
 
 export default async function Menswear() {
-    const menswearProducts = await getProductsByCategory('Menswear');
+    const menswearProducts = (await getAllProductsByCategory('Menswear'))
+        .filter(p => p.id !== '301' && p.id !== '303');
+
+
+    // Group products by subcategory
+    const productsByCollection: { [key: string]: typeof menswearProducts } = {};
+    const mainProducts: typeof menswearProducts = [];
+
+    menswearProducts.forEach(product => {
+        if (product.subcategory && product.subcategory !== '') {
+            if (!productsByCollection[product.subcategory]) {
+                productsByCollection[product.subcategory] = [];
+            }
+            productsByCollection[product.subcategory].push(product);
+        } else {
+            mainProducts.push(product);
+        }
+    });
 
     return (
         <div className="pt-8">
@@ -18,19 +36,36 @@ export default async function Menswear() {
             </section>
 
             <section className="pb-24 px-8 md:px-20 max-w-[1440px] mx-auto">
-                {/* Collection Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-                    {menswearProducts.map((product, index) => (
-                        <ProductCard
-                            key={product.id}
-                            src={product.images[0]}
-                            secondarySrc={product.images[1] || product.images[0]}
-                            title={product.title}
-                            index={index}
-                            slug={product.slug}
-                        />
-                    ))}
-                </div>
+                {/* Collections - Each with horizontal scrollable row */}
+                {Object.entries(productsByCollection).map(([collectionName, products]) => (
+                    <CollectionRow
+                        key={collectionName}
+                        title={collectionName}
+                        products={products}
+                        categorySlug="menswear"
+                    />
+                ))}
+
+                {/* Main Menswear Products (no collection) */}
+                {mainProducts.length > 0 && (
+                    <div className="mb-16">
+
+
+                        {/* Main Products Grid */}
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                            {mainProducts.map((product, index) => (
+                                <ProductCard
+                                    key={product.id}
+                                    src={product.images[0]}
+                                    secondarySrc={product.images[1] || product.images[0]}
+                                    title={product.title}
+                                    index={index}
+                                    slug={product.slug}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
             </section>
         </div>
     );

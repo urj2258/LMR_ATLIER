@@ -27,6 +27,7 @@ export async function POST(req: Request) {
             name: data.name,
             slug: data.slug,
             order: data.order || 0,
+            mainCategory: data.mainCategory,
             createdAt: new Date().toISOString(),
         };
 

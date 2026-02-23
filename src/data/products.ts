@@ -932,23 +932,7 @@ export const products: Product[] = [
         details: 'All-over sequin spray.'
     },
     // Menswear
-    {
-        id: '301',
-        slug: 'midnight-blue-sherwani',
-        title: 'Midnight Blue Sherwani',
-        category: 'Menswear',
-        price: 'Price on Request',
-        images: [
-            '/images/placeholders/mens_1_1.png',
-            '/images/placeholders/mens_1_2.png',
-            '/images/placeholders/mens_1_3.png',
-            '/images/placeholders/mens_1_4.png'
-        ],
-        description: 'Classic midnight blue sherwani with antique gold buttons.',
-        color: 'Midnight Blue',
-        fabric: 'Jamawar',
-        details: 'Structured fit with hand-finished details.'
-    },
+
     {
         id: '302',
         slug: 'ivory-silk-kurta-set',
@@ -966,23 +950,7 @@ export const products: Product[] = [
         fabric: 'Raw Silk',
         details: 'Subtle self-embroidery on the collar.'
     },
-    {
-        id: '303',
-        slug: 'noir-velvet-bandhgala',
-        title: 'Noir Velvet Bandhgala',
-        category: 'Menswear',
-        price: 'Price on Request',
-        images: [
-            '/images/placeholders/mens_3_1.png',
-            '/images/placeholders/mens_3_2.png',
-            '/images/placeholders/mens_3_3.png',
-            '/images/placeholders/mens_3_4.png'
-        ],
-        description: 'Sophisticated black velvet bandhgala jacket.',
-        color: 'Black',
-        fabric: 'Velvet',
-        details: 'Premium velvet with gold buttons.'
-    },
+
     // Little Ones
     {
         id: '401',

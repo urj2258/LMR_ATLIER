@@ -152,7 +152,8 @@ export default function ProductTable({ initialProducts, initialCategories = [], 
                 </div>
             </div>
 
-            <div className="bg-white border border-[#eeeeee] shadow-sm overflow-hidden">
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white border border-[#eeeeee] shadow-sm overflow-hidden">
                 <table className="w-full text-left">
                     <thead>
                         <tr className="border-b border-[#eeeeee] bg-[#fcfaf7]/50">
@@ -224,6 +225,54 @@ export default function ProductTable({ initialProducts, initialCategories = [], 
                     </tbody>
                 </table>
             </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden flex flex-col gap-4">
+                {isLoading ? (
+                    [1, 2, 3].map(i => (
+                        <div key={i} className="bg-white border border-[#eeeeee] p-4 animate-pulse h-32"></div>
+                    ))
+                ) : filteredProducts.length === 0 ? (
+                    <EmptyState />
+                ) : (
+                    filteredProducts.map((product) => (
+                        <div key={product.id} className="bg-white border border-[#eeeeee] p-4 flex gap-4 items-start shadow-sm">
+                            <div className="w-20 h-24 bg-[#e9e4d9] overflow-hidden relative shadow-sm border border-black/5 flex-shrink-0">
+                                {product.images?.[0] ? (
+                                    <Image
+                                        src={product.images[0]}
+                                        alt={product.title}
+                                        fill
+                                        sizes="80px"
+                                        className="object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-[10px] text-black/20">No Img</div>
+                                )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-xs font-bold uppercase tracking-widest mb-1 truncate">{product.title}</p>
+                                <p className="text-[9px] uppercase tracking-widest text-[#bd870a] mb-4">{product.category}</p>
+                                <div className="flex gap-4">
+                                    <Link
+                                        href={`/admin/products/${product.id}/edit`}
+                                        className="text-[10px] uppercase tracking-widest font-bold text-black/60 bg-gray-50 px-3 py-1.5 border border-black/5"
+                                    >
+                                        Edit
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(product.id)}
+                                        className="text-[10px] uppercase tracking-widest font-bold text-red-600/60 bg-red-50 px-3 py-1.5 border border-red-100"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
         </>
     );
 }

@@ -3,15 +3,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
-
-interface CategoryImage {
-    src: string;
-    title?: string;
-}
+import { Product } from "@/utils/db";
 
 interface CategorySectionProps {
     title: string;
-    images: (string | CategoryImage)[];
+    products: Product[];
     buttonText?: string;
     theme?: "light" | "cream";
     showViewAll?: boolean;
@@ -20,7 +16,7 @@ interface CategorySectionProps {
 
 export default function CategorySection({
     title,
-    images,
+    products,
     buttonText = "View All",
     theme = "light",
     showViewAll = true,
@@ -41,17 +37,16 @@ export default function CategorySection({
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-10 mb-8">
-                    {images.map((img, index) => {
-                        const imageData = typeof img === "string" ? { src: img, title: "" } : img;
-                        return (
-                            <ProductCard
-                                key={index}
-                                src={imageData.src}
-                                title={imageData.title || "Luxury Ensemble"}
-                                index={index}
-                            />
-                        );
-                    })}
+                    {products.map((product, index) => (
+                        <ProductCard
+                            key={product.id}
+                            src={product.images[0] || "/images/placeholder.png"}
+                            secondarySrc={product.images[1]}
+                            title={product.title}
+                            slug={product.slug}
+                            index={index}
+                        />
+                    ))}
                 </div>
 
                 {showViewAll && (

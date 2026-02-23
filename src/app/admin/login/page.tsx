@@ -24,6 +24,12 @@ export default function AdminLogin() {
                 body: JSON.stringify({ email, password }),
             });
 
+            // Check if response is JSON before parsing
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error("Server returned an invalid response. Please check the API route.");
+            }
+
             const data = await res.json();
 
             if (res.ok && data.success) {
@@ -32,7 +38,8 @@ export default function AdminLogin() {
                 setError(data.message || "Invalid credentials");
             }
         } catch (err) {
-            setError("Something went wrong. Please try again.");
+            console.error("Login error:", err);
+            setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
         } finally {
             setIsLoading(false);
         }

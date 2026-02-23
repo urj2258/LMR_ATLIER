@@ -37,7 +37,7 @@ export default function HeroCarousel() {
     }, []);
 
     return (
-        <section className="relative h-[65vh] md:h-[75vh] lg:h-[80vh] w-full overflow-hidden bg-charcoal">
+        <section className="relative h-[50vh] sm:h-[60vh] md:h-[75vh] lg:h-[85vh] w-full overflow-hidden bg-charcoal">
             <AnimatePresence>
                 <motion.div
                     key={current}
@@ -53,36 +53,38 @@ export default function HeroCarousel() {
                         fill
                         className="object-cover"
                         priority
+                        sizes="100vw"
                     />
-                    <div className="absolute inset-0 bg-black/30" />
+                    <div className="absolute inset-0 bg-black/20" />
                 </motion.div>
             </AnimatePresence>
 
             {/* Content Overlay */}
-            <div className="relative z-10 w-full h-full max-w-[1440px] mx-auto flex flex-col justify-end pb-12 md:pb-20 px-6 md:px-12">
+            <div className="relative z-10 w-full h-full max-w-[1440px] mx-auto flex flex-col justify-end pb-12 md:pb-24 px-6 md:px-12 items-center md:items-start">
 
                 {/* Bottom-Centered Luxury Content Group (Removed Headings) */}
                 <div className="mx-auto text-center mb-16 md:mb-24 relative flex flex-col items-center max-w-5xl">
                     {/* Headings removed per user request */}
                 </div>
 
-                {/* Bottom-Left Independently Anchored CTA (Scaled Down) */}
+                {/* Independently Anchored CTA */}
                 <motion.div
                     key={`cta-${current}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 1, delay: 1 }}
-                    className="absolute bottom-12 md:bottom-16 left-6 md:left-12 z-20"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                    className="mb-8 md:mb-0 md:absolute md:bottom-16 md:left-12 z-20 w-full md:w-auto px-6 md:px-0"
                 >
                     <Link
                         href="https://wa.me/923288652263?text=I'd like to book an appointment."
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 border border-white/20 hover:border-white/60 text-white px-7 py-3 text-[7px] md:text-[8px] uppercase tracking-[0.3em] font-medium transition-all backdrop-blur-sm bg-white/[0.03] hover:bg-white/[0.08]"
+                        className="flex items-center justify-center gap-3 border border-white/40 hover:border-white/80 text-white px-10 py-4 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-medium transition-all backdrop-blur-sm bg-white/[0.05] hover:bg-white/[0.1] rounded-sm w-full md:w-auto"
                     >
                         Book an Appointment
                     </Link>
                 </motion.div>
+
 
             </div>
 

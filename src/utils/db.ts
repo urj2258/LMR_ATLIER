@@ -9,6 +9,7 @@ export interface Category {
     slug: string;
     order: number;
     createdAt: string;
+    mainCategory?: string;
 }
 
 export interface Product {
@@ -22,6 +23,14 @@ export interface Product {
     color: string;
     fabric: string;
     details: string;
+    sku?: string;
+    sizeChart?: string;
+    measurementGuide?: string;
+    deliveryTime?: string;
+    shipping?: string;
+    customization?: string;
+    priceInfo?: string;
+    subcategory?: string;
 }
 
 export interface Subscriber {
@@ -89,6 +98,48 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getProductsByCategory(category: string): Promise<Product[]> {
+    if (adminDb) {
+        const snap = await adminDb.collection('products').where('category', '==', category).get();
+        // Filter out products that have a subcategory - only show main category products
+        return snap.docs.map(doc => doc.data() as Product).filter(p => !p.subcategory || p.subcategory === '');
+    }
+    const q = query(collection(db, 'products'), where('category', '==', category));
+    const snap = await getDocs(q);
+    // Filter out products that have a subcategory - only show main category products
+    return snap.docs.map(doc => doc.data() as Product).filter(p => !p.subcategory || p.subcategory === '');
+}
+
+export async function getProductsBySubcategory(category: string, subcategory: string, limitCount?: number): Promise<Product[]> {
+    if (adminDb) {
+        let queryRef = adminDb.collection('products')
+            .where('category', '==', category)
+            .where('subcategory', '==', subcategory);
+
+        if (limitCount) {
+            queryRef = queryRef.limit(limitCount);
+        }
+
+        const snap = await queryRef.get();
+        return snap.docs.map(doc => doc.data() as Product);
+    }
+
+    let q = query(
+        collection(db, 'products'),
+        where('category', '==', category),
+        where('subcategory', '==', subcategory)
+    );
+
+    if (limitCount) {
+        q = query(q, limit(limitCount));
+    }
+
+    const snap = await getDocs(q);
+    return snap.docs.map(doc => doc.data() as Product);
+}
+
+
+// Get ALL products in a category, INCLUDING subcategories (for category pages like /menswear)
+export async function getAllProductsByCategory(category: string): Promise<Product[]> {
     if (adminDb) {
         const snap = await adminDb.collection('products').where('category', '==', category).get();
         return snap.docs.map(doc => doc.data() as Product);

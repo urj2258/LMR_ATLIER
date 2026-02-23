@@ -1,13 +1,29 @@
 
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { getProductsByCategory } from "@/utils/db";
+import CollectionRow from "@/components/CollectionRow";
+import { getAllProductsByCategory } from "@/utils/db";
 
 export const dynamic = 'force-dynamic';
 
 
 export default async function LittleOnes() {
-    const kidsProducts = await getProductsByCategory('Little Ones');
+    const kidsProducts = await getAllProductsByCategory('Little Ones');
+
+    // Group products by subcategory
+    const productsByCollection: { [key: string]: typeof kidsProducts } = {};
+    const mainProducts: typeof kidsProducts = [];
+
+    kidsProducts.forEach(product => {
+        if (product.subcategory && product.subcategory !== '') {
+            if (!productsByCollection[product.subcategory]) {
+                productsByCollection[product.subcategory] = [];
+            }
+            productsByCollection[product.subcategory].push(product);
+        } else {
+            mainProducts.push(product);
+        }
+    });
 
     return (
         <div className="pt-8">
@@ -22,18 +38,42 @@ export default async function LittleOnes() {
 
             {/* Collection Grid */}
             <div className="max-w-[1400px] mx-auto px-6 md:px-20 pb-20 pt-16">
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-                    {kidsProducts.map((product, index) => (
-                        <ProductCard
-                            key={product.id}
-                            src={product.images[0]}
-                            secondarySrc={product.images[1] || product.images[0]}
-                            title={product.title}
-                            index={index}
-                            slug={product.slug}
-                        />
-                    ))}
-                </div>
+                {/* Collections - Each with horizontal scrollable row */}
+                {Object.entries(productsByCollection).map(([collectionName, products]) => (
+                    <CollectionRow
+                        key={collectionName}
+                        title={collectionName}
+                        products={products}
+                        categorySlug="little-ones"
+                    />
+                ))}
+
+                {/* Main Little Ones Products (no collection) */}
+                {mainProducts.length > 0 && (
+                    <div className="mb-16">
+                        {Object.keys(productsByCollection).length > 0 && (
+                            <div className="mb-8 text-center">
+                                <h3 className="text-3xl md:text-4xl font-serif tracking-tight text-gray-900 mb-2">
+                                    Little Ones Essentials
+                                </h3>
+                                <div className="w-8 h-[1px] bg-[#bd870a] mx-auto mt-4"></div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                            {mainProducts.map((product, index) => (
+                                <ProductCard
+                                    key={product.id}
+                                    src={product.images[0]}
+                                    secondarySrc={product.images[1] || product.images[0]}
+                                    title={product.title}
+                                    index={index}
+                                    slug={product.slug}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

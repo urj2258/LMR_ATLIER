@@ -1,84 +1,55 @@
 import HeroCarousel from "@/components/HeroCarousel";
-import CategorySection from "@/components/CategorySection";
+import CollectionRow from "@/components/CollectionRow";
 import CraftSection from "@/components/CraftSection";
+import { getCategories, getProductsBySubcategory } from "@/utils/db";
 
-export default function Home() {
+export default async function Home() {
+  // 1. Fetch categories to find subcategories
+  const categories = await getCategories();
+  const sortedCategories = [...categories].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  // 2. Identify Featured Subcategories (First 2 from Women Wear and Menswear)
+  const featuredWomenSubcats = sortedCategories
+    .filter(c => c.mainCategory === 'Women Wear')
+    .slice(0, 2);
+
+  const featuredMensSubcats = sortedCategories
+    .filter(c => c.mainCategory === 'Menswear')
+    .slice(0, 2);
+
+  // 3. Fetch products for these subcategories in parallel with a limit of 8
+  const subcatDataPromises = [...featuredWomenSubcats, ...featuredMensSubcats].map(async (subcat) => {
+    const products = await getProductsBySubcategory(subcat.mainCategory!, subcat.name, 8);
+    return {
+      ...subcat,
+      products
+    };
+  });
+
+  const featuredData = (await Promise.all(subcatDataPromises)).filter(item => item.products.length > 0);
+
   return (
     <>
       {/* 1️⃣ HERO SECTION */}
       <HeroCarousel />
 
-      {/* 2️⃣ WEDDING EDIT SECTION */}
-      <CategorySection
-        title="WEDDING EDIT"
-        images={[
-          { src: "/images/wedding_edit.png", title: "Tiffany Blue – Bridal Gown" },
-          { src: "/images/wedding_edit.png", title: "Tiffany Blue – Co-ord Set" },
-          { src: "/images/wedding_edit.png", title: "Tiffany Blue – Sequin Saree" },
-          { src: "/images/wedding_edit.png", title: "Tiffany Blue – Lehengha" }
-        ]}
-        theme="cream"
-        showViewAll={true}
-        link="/wedding-edit"
-      />
 
-      {/* 4️⃣ MENSWEAR SECTION - Renamed based on reference */}
-      <CategorySection
-        title="MIAN SAHIB AUR BEGHUM SAHIBA"
-        images={[
-          { src: "/images/menswear.png", title: "Charcoal – Sherwani" },
-          { src: "/images/menswear.png", title: "Charcoal – Kurta" },
-          { src: "/images/menswear.png", title: "Charcoal – Nehru Jacket" },
-          { src: "/images/menswear.png", title: "Charcoal – Tuxedo" }
-        ]}
-        theme="light"
-        showViewAll={true}
-        link="/menswear"
-      />
+      {/* 2️⃣ FEATURED SUBCATEGORIES SECTION */}
+      <div className="py-12">
+        {featuredData.map((subcat) => (
+          <div key={subcat.id} className="mb-16">
+            <CollectionRow
+              title={subcat.name}
+              products={subcat.products}
+              categorySlug={subcat.mainCategory?.toLowerCase().replace(/ /g, '-') || ''}
+            />
+          </div>
+        ))}
+      </div>
 
-      {/* 3️⃣ BRIDAL EDIT SECTION */}
-      <CategorySection
-        title="BRIDAL EDIT"
-        images={[
-          { src: "/images/bridal_edit.png", title: "Ivory – Bridal Gown" },
-          { src: "/images/bridal_edit.png", title: "Ivory – Co-ord Set" },
-          { src: "/images/bridal_edit.png", title: "Ivory – Sequin Saree" },
-          { src: "/images/bridal_edit.png", title: "Ivory – Lehengha" }
-        ]}
-        theme="cream"
-        showViewAll={true}
-        link="/bridal-edit"
-      />
-
-      {/* 5️⃣ FORMAL EDIT SECTION - Party Wear */}
-      <CategorySection
-        title="FORMAL EDIT"
-        images={[
-          { src: "/images/bridal_edit.png", title: "Hand Embroidered – Karhai Gown" },
-          { src: "/images/bridal_edit.png", title: "Hand WORKED – Co-ord Set" },
-          { src: "/images/bridal_edit.png", title: "Hand Embellished – Saree" },
-          { src: "/images/bridal_edit.png", title: "Hand Crafted – Fusion Wear" }
-        ]}
-        theme="cream"
-        showViewAll={true}
-        link="/formal-edit"
-      />
-
-      {/* 6️⃣ LITTLE ONES SECTION */}
-      <CategorySection
-        title="LITTLE ONES"
-        images={[
-          { src: "/images/little_ones.png", title: "Mini – Bridal Gown" },
-          { src: "/images/little_ones.png", title: "Mini – Co-ord Set" },
-          { src: "/images/little_ones.png", title: "Mini – Sequin Saree" }
-        ]}
-        theme="light"
-        showViewAll={true}
-        link="/little-ones"
-      />
-
-      {/* 6️⃣ OUR CRAFT SECTION */}
+      {/* 3️⃣ OUR CRAFT SECTION */}
       <CraftSection />
     </>
   );
 }
+

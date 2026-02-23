@@ -37,21 +37,22 @@ export default function ProductsClient() {
 
     return (
         <>
-            <header className="flex justify-between items-end mb-12">
+            <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
                 <div>
                     <nav className="text-[10px] uppercase tracking-widest text-black/40 mb-2">
                         Portal / Imagery
                     </nav>
-                    <h1 className="text-3xl font-serif font-light tracking-tight">Manage Products</h1>
+                    <h1 className="text-2xl md:text-3xl font-serif font-light tracking-tight">Manage Products</h1>
                 </div>
                 <Link
                     href="/admin/products/add"
-                    className="bg-[#121212] text-white px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-all flex items-center gap-2"
+                    className="w-full md:w-auto bg-[#121212] text-white px-8 py-4 md:py-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-all flex items-center justify-center gap-2 rounded-sm"
                 >
                     <span className="material-symbols-outlined text-sm">add</span>
                     Add Product
                 </Link>
             </header>
+
 
             <ProductTable
                 initialProducts={products}

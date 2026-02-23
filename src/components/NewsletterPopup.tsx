@@ -2,23 +2,19 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 
 export default function NewsletterPopup() {
     const [isVisible, setIsVisible] = useState(false);
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const pathname = usePathname();
 
     useEffect(() => {
-        // Check localStorage
         const isClosed = localStorage.getItem("newsletter_closed");
         const isSubscribed = localStorage.getItem("newsletter_subscribed");
 
         if (!isClosed && !isSubscribed) {
-            // Show after 4 seconds
             const timer = setTimeout(() => {
                 setIsVisible(true);
             }, 4000);
@@ -28,7 +24,6 @@ export default function NewsletterPopup() {
 
     const handleClose = () => {
         setIsVisible(false);
-        // Save closed state (valid for session or permanent depending on req, strictly following 'closed=true')
         localStorage.setItem("newsletter_closed", "true");
     };
 
@@ -42,12 +37,10 @@ export default function NewsletterPopup() {
                     body: JSON.stringify({ name, email }),
                 });
 
-                setIsSubmitted(true);
-                localStorage.setItem("newsletter_subscribed", "true"); // Still keep local logic for UX
-
+                localStorage.setItem("newsletter_subscribed", "true");
                 setTimeout(() => {
                     setIsVisible(false);
-                }, 1000);
+                }, 2000);
             } catch (error) {
                 console.error('Subscription failed:', error);
             }
@@ -57,79 +50,91 @@ export default function NewsletterPopup() {
     if (!isVisible || pathname?.startsWith('/admin')) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 backdrop-blur-sm transition-opacity duration-500">
-            <div className="relative w-full max-w-4xl bg-white shadow-2xl overflow-hidden flex flex-col md:flex-row animate-in fade-in zoom-in duration-500">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
+            <div className="relative w-full max-w-[900px] bg-white flex">
 
                 {/* Close Button */}
                 <button
                     onClick={handleClose}
-                    className="absolute top-4 right-4 z-10 p-2 text-gray-500 hover:text-black transition-colors"
+                    className="absolute top-[20px] right-[20px] z-10 w-[30px] h-[30px] flex items-center justify-center text-[#666] hover:text-black transition-colors"
+                    aria-label="Close"
                 >
-                    <XMarkIcon className="w-6 h-6" />
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <line x1="2" y1="2" x2="18" y2="18" />
+                        <line x1="18" y1="2" x2="2" y2="18" />
+                    </svg>
                 </button>
 
-                {/* Image Section */}
-                <div className="hidden md:block w-1/2 relative min-h-[500px]">
+                {/* Image Section - Left */}
+                <div className="hidden md:block w-[450px] relative">
                     <Image
-                        src="/images/placeholders/bridal_1_1.png" // Using a high-quality existing image
-                        alt="LMR Atelier Luxury"
+                        src="/images/placeholders/bridal_1_1.png"
+                        alt="LMR ATELIER"
                         fill
                         className="object-cover"
+                        priority
                     />
-                    <div className="absolute inset-0 bg-black/10" />
                 </div>
 
-                {/* Content Section */}
-                <div className="w-full md:w-1/2 p-10 md:p-14 flex flex-col justify-center text-center">
-                    <span className="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-4">Join the Atelier</span>
+                {/* Content Section - Right */}
+                <div className="w-full md:w-[450px] bg-white px-[60px] py-[80px] flex flex-col justify-center">
 
-                    {!isSubmitted ? (
-                        <>
-                            <h2 className="font-serif text-3xl md:text-4xl text-[#181611] mb-4 leading-tight">
-                                Unlock 10% Off <br /> Your First Order
-                            </h2>
-                            <p className="text-gray-500 text-sm font-light leading-relaxed mb-8">
-                                Subscribe to receive exclusive updates, early access to new collections, and bespoke offers.
-                            </p>
-
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <div>
-                                    <input
-                                        type="text"
-                                        placeholder="Full Name"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="w-full border-b border-gray-300 py-3 text-center text-sm outline-none focus:border-black transition-colors bg-transparent placeholder:text-gray-400 font-light"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        type="email"
-                                        placeholder="Email Address"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full border-b border-gray-300 py-3 text-center text-sm outline-none focus:border-black transition-colors bg-transparent placeholder:text-gray-400 font-light"
-                                        required
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="w-full bg-[#181611] text-white py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-[#bd870a] transition-colors mt-4"
-                                >
-                                    Subscribe
-                                </button>
-                            </form>
-                            <p className="text-[10px] text-gray-400 mt-6 font-light">
-                                By signing up, you agree to our Privacy Policy.
-                            </p>
-                        </>
-                    ) : (
-                        <div className="py-10 animate-in fade-in duration-500">
-                            <h3 className="font-serif text-2xl text-[#181611] mb-2">Welcome to LMR</h3>
-                            <p className="text-gray-500 text-sm font-light">You have successfully subscribed.</p>
+                    {/* Logo/Brand */}
+                    <div className="text-center mb-[30px]">
+                        <div className="flex flex-col items-center justify-center">
+                            <span className="font-serif tracking-[0.15em] text-black uppercase text-[32px] leading-none">LMR</span>
+                            <span className="font-sans tracking-[0.4em] text-[#C9A961] uppercase text-[11px] mt-[2px]">ATELIER</span>
                         </div>
-                    )}
+                    </div>
+
+
+                    {/* Heading */}
+                    <h2 className="text-[28px] font-normal text-black text-center mb-[15px]" style={{ fontFamily: 'serif', lineHeight: '1.3' }}>
+                        Signup for newsletter
+                    </h2>
+
+                    {/* Subtext */}
+                    <p className="text-[14px] text-[#666] text-center mb-[35px]" style={{ lineHeight: '1.6' }}>
+                        Stay up to date with latest collections<br />and news from LMR ATELIER
+                    </p>
+
+                    {/* Form */}
+                    <form onSubmit={handleSubmit} className="space-y-[15px]">
+                        <div>
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className="w-full h-[45px] px-[15px] text-[14px] text-black border border-[#ddd] outline-none focus:border-[#999] transition-colors"
+                                style={{ fontFamily: 'sans-serif' }}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full h-[45px] px-[15px] text-[14px] text-black border border-[#ddd] outline-none focus:border-[#999] transition-colors"
+                                style={{ fontFamily: 'sans-serif' }}
+                                required
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full h-[45px] bg-black text-white text-[14px] font-medium hover:bg-[#333] transition-colors"
+                            style={{ fontFamily: 'sans-serif' }}
+                        >
+                            Subscribe now
+                        </button>
+                    </form>
+
+                    {/* Footer Disclaimer */}
+                    <p className="text-[11px] text-[#999] text-center mt-[25px]" style={{ lineHeight: '1.5' }}>
+                        You are signing up to receive communication via email and can unsubscribe at any time.
+                    </p>
                 </div>
             </div>
         </div>

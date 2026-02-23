@@ -9,7 +9,7 @@ import type { Product } from "@/utils/db";
 
 export default function ProductDetailClient({ product, relatedProducts }: { product: Product, relatedProducts: Product[] }) {
     const [selectedImage, setSelectedImage] = useState(0);
-    const { title, images, description, color, fabric, details, category } = product;
+    const { title, images, description, color, fabric, details, category, sku, sizeChart, measurementGuide, deliveryTime, shipping, customization, priceInfo } = product;
 
     // Inquiry State
     const [inquiryStatus, setInquiryStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -55,7 +55,7 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
     return (
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-8 bg-white selection:bg-[#fed7aa] selection:text-black">
             {/* Breadcrumbs */}
-            <nav className="flex items-center gap-2 mb-10 text-gray-400 text-[10px] uppercase tracking-widest font-medium">
+            <nav className="flex items-center gap-2 mb-8 md:mb-10 text-gray-400 text-[9px] md:text-[10px] uppercase tracking-widest font-medium overflow-x-auto whitespace-nowrap scrollbar-hide pb-2">
                 <Link className="hover:text-black transition-colors" href="/">Home</Link>
                 <span className="opacity-50">/</span>
                 <Link className="hover:text-black transition-colors" href={`/${category.toLowerCase().replace(' ', '-')}-edit`}>{category} Edit</Link>
@@ -63,46 +63,69 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                 <span className="text-black font-bold">{title}</span>
             </nav>
 
-            <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mb-24">
-                {/* Left Column: Gallery */}
-                <div className="lg:col-span-7 flex flex-col gap-6">
-                    <motion.div
-                        key={selectedImage}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="aspect-[3/4.2] w-full bg-gray-50 overflow-hidden relative shadow-sm"
-                    >
-                        {images[selectedImage] && (
-                            <Image
-                                src={images[selectedImage]}
-                                alt={title}
-                                fill
-                                className="object-cover"
-                                priority
-                            />
-                        )}
-                    </motion.div>
 
-                    {/* Thumbnails */}
-                    <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
-                        {images.map((img, i) => (
-                            <div
-                                key={i}
-                                onClick={() => setSelectedImage(i)}
-                                className={`flex-shrink-0 w-24 aspect-[4/5] bg-gray-50 border transition-all duration-300 ${selectedImage === i ? 'border-black opacity-100 scale-95' : 'border-transparent opacity-70 hover:opacity-100'
-                                    } cursor-pointer overflow-hidden relative`}
-                            >
+            <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20 mb-16 md:mb-24">
+                {/* Gallery Column */}
+                <div className="lg:col-span-7 flex flex-col gap-6">
+                    {/* Desktop Gallery (Hidden on Mobile) */}
+                    <div className="hidden lg:flex flex-col gap-6">
+                        <motion.div
+                            key={selectedImage}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                            className="aspect-[3/4.2] w-full bg-gray-50 overflow-hidden relative shadow-sm"
+                        >
+                            {images[selectedImage] && (
                                 <Image
-                                    src={img}
-                                    alt={`${title} Detail ${i + 1}`}
+                                    src={images[selectedImage]}
+                                    alt={title}
                                     fill
                                     className="object-cover"
+                                    priority
+                                    sizes="50vw"
+                                />
+                            )}
+                        </motion.div>
+
+                        {/* Thumbnails */}
+                        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+                            {images.map((img, i) => (
+                                <div
+                                    key={i}
+                                    onClick={() => setSelectedImage(i)}
+                                    className={`flex-shrink-0 w-24 aspect-[4/5] bg-gray-50 border transition-all duration-300 ${selectedImage === i ? 'border-black opacity-100 scale-95' : 'border-transparent opacity-70 hover:opacity-100'
+                                        } cursor-pointer overflow-hidden relative`}
+                                >
+                                    <Image
+                                        src={img}
+                                        alt={`${title} Detail ${i + 1}`}
+                                        fill
+                                        className="object-cover"
+                                        sizes="100px"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Mobile Swiper Gallery (Hidden on Desktop) */}
+                    <div className="lg:hidden -mx-6 md:-mx-12 overflow-x-auto snap-x snap-mandatory flex scrollbar-hide">
+                        {images.map((img, i) => (
+                            <div key={i} className="flex-shrink-0 w-full snap-center px-6 md:px-12 aspect-[3/4.2] relative">
+                                <Image
+                                    src={img}
+                                    alt={`${title} - View ${i + 1}`}
+                                    fill
+                                    className="object-cover px-6 md:px-12"
+                                    priority={i === 0}
+                                    sizes="100vw"
                                 />
                             </div>
                         ))}
                     </div>
                 </div>
+
 
                 {/* Right Column: Info & Form */}
                 <div className="lg:col-span-5 flex flex-col">
@@ -112,7 +135,7 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
 
                             {/* WhatsApp Button */}
                             <a
-                                href={`https://wa.me/923288652263?text=${encodeURIComponent(`Hi, I am interested in ${title}.\nReference Image: ${images[selectedImage]}`)}`}
+                                href={`https://wa.me/923288652263?text=${encodeURIComponent(sku ? `Hello, I'm interested in ${title} (SKU: ${sku}). Please share more details.` : `Hi, I am interested in ${title}.\nReference Image: ${images[selectedImage]}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 bg-[#128C7E] hover:bg-[#075E54] text-white px-5 py-2.5 rounded text-xs font-bold uppercase tracking-wider transition-all"
@@ -126,8 +149,9 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
 
                         <div className="space-y-6 text-gray-600 text-[13px] leading-relaxed mb-8 max-w-lg">
                             <p>{description}</p>
-                            <p className="font-bold text-black uppercase tracking-widest text-[11px]">Color: <span className="font-normal text-gray-500 ml-1">{color}</span></p>
-                            <p className="font-bold text-black uppercase tracking-widest text-[11px]">Fabric: <span className="font-normal text-gray-500 ml-1">{fabric}</span></p>
+                            {color && <p className="font-bold text-black uppercase tracking-widest text-[11px]">Color: <span className="font-normal text-gray-500 ml-1">{color}</span></p>}
+                            {fabric && <p className="font-bold text-black uppercase tracking-widest text-[11px]">Fabric: <span className="font-normal text-gray-500 ml-1">{fabric}</span></p>}
+                            {sku && <p className="font-bold text-black uppercase tracking-widest text-[11px] mt-4">SKU: <span className="font-normal text-gray-500 ml-1">{sku}</span></p>}
                         </div>
 
                         {/* Inquiry Form */}
@@ -138,13 +162,13 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                                 </div>
                             ) : (
                                 <form onSubmit={handleInquirySubmit} className="space-y-6">
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-[10px] uppercase tracking-widest font-bold mb-2 text-gray-800">Full name</label>
                                             <input
                                                 id="name"
                                                 type="text"
-                                                className="w-full bg-white border border-gray-200 focus:border-black py-2.5 px-3 text-sm transition-colors outline-none"
+                                                className="w-full bg-white border border-gray-200 focus:border-black py-3 px-4 text-sm transition-colors outline-none rounded-none"
                                                 value={formData.name}
                                                 onChange={handleInquiryChange}
                                                 required
@@ -155,24 +179,26 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                                             <input
                                                 id="email"
                                                 type="email"
-                                                className="w-full bg-white border border-gray-200 focus:border-black py-2.5 px-3 text-sm transition-colors outline-none"
+                                                className="w-full bg-white border border-gray-200 focus:border-black py-3 px-4 text-sm transition-colors outline-none rounded-none"
                                                 value={formData.email}
                                                 onChange={handleInquiryChange}
                                                 required
                                             />
                                         </div>
                                     </div>
+
                                     <div>
                                         <label className="block text-[10px] uppercase tracking-widest font-bold mb-2 text-gray-800">Phone number <span className="text-red-500">*</span></label>
                                         <input
                                             id="phone"
                                             type="tel"
-                                            className="w-full bg-white border border-gray-200 focus:border-black py-2.5 px-3 text-sm transition-colors outline-none"
+                                            className="w-full bg-white border border-gray-200 focus:border-black py-3 px-4 text-sm transition-colors outline-none rounded-none"
                                             value={formData.phone}
                                             onChange={handleInquiryChange}
                                             required
                                         />
                                     </div>
+
                                     <div>
                                         <label className="block text-[10px] uppercase tracking-widest font-bold mb-2 text-gray-800">Share Your Message</label>
                                         <textarea
@@ -198,9 +224,14 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                         </div>
 
                         {/* Quote Button */}
-                        <button className="w-full bg-[#fcd475] hover:bg-[#fbbd4d] text-black py-5 text-[12px] font-bold uppercase tracking-[0.2em] transition-all mb-8 shadow-sm">
+                        <a
+                            href={`https://wa.me/923288652263?text=${encodeURIComponent(`Hello, I would like to request a quote for ${title}${sku ? ` (SKU: ${sku})` : ''}.`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full bg-[#fcd475] hover:bg-[#fbbd4d] text-black py-5 text-[12px] font-bold uppercase tracking-[0.2em] transition-all mb-8 shadow-sm text-center"
+                        >
                             Request a quote
-                        </button>
+                        </a>
 
                         {/* Links */}
                         <div className="flex flex-col gap-3 mb-10">
@@ -210,12 +241,14 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
 
                         {/* Accordion */}
                         <div className="border-t border-gray-200">
-                            {[
-                                { icon: 'schedule', label: 'Delivery Time', value: '8 to 12 weeks' },
-                                { icon: 'public', label: 'Shipping', value: 'We deliver worldwide. Shipping rates may apply.' },
-                                { icon: 'square_foot', label: 'Customization', value: 'For customization please contact our fashion consultant' },
-                                { icon: 'sell', label: 'Details', value: details }
-                            ].map((item, idx) => (
+                            {([
+                                sizeChart && { icon: 'straighten', label: 'Size Chart', value: sizeChart },
+                                measurementGuide && { icon: 'square_foot', label: 'Measurement Guide', value: measurementGuide },
+                                deliveryTime && { icon: 'schedule', label: 'Delivery Time', value: deliveryTime },
+                                shipping && { icon: 'public', label: 'Shipping', value: shipping },
+                                customization && { icon: 'brush', label: 'Customization', value: customization },
+                                priceInfo && { icon: 'sell', label: 'Price', value: priceInfo }
+                            ].filter((item): item is { icon: string; label: string; value: string } => Boolean(item))).map((item, idx) => (
                                 <details key={idx} className="group border-b border-gray-200">
                                     <summary className="flex items-center gap-4 py-4 cursor-pointer list-none list-inside">
                                         <span className="material-symbols-outlined text-gray-800 text-[18px]">{item.icon}</span>

@@ -22,12 +22,20 @@ export async function POST(request: Request) {
             slug: body.slug || body.title.toLowerCase().replace(/ /g, '-'),
             title: body.title,
             category: body.category,
+            subcategory: body.subcategory || '',
             price: body.price || 'Price on Request',
             images: body.images || [], // Should be array of paths
             description: body.description || '',
             color: body.color || '',
             fabric: body.fabric || '',
-            details: body.details || ''
+            details: body.details || '',
+            sku: body.sku || '',
+            sizeChart: body.sizeChart || '',
+            measurementGuide: body.measurementGuide || '',
+            deliveryTime: body.deliveryTime || '',
+            shipping: body.shipping || '',
+            customization: body.customization || '',
+            priceInfo: body.priceInfo || ''
         };
 
         // db.products.push(newProduct);

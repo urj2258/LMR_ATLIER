@@ -11,12 +11,15 @@ interface Category {
     id: string;
     name: string;
     slug: string;
+    mainCategory?: string;
 }
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isWomenWearOpen, setIsWomenWearOpen] = useState(false); // For mobile accordion
+    const [isMenswearOpen, setIsMenswearOpen] = useState(false); // For mobile accordion
+    const [isLittleOnesOpen, setIsLittleOnesOpen] = useState(false); // For mobile accordion
     const [categories, setCategories] = useState<Category[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -27,6 +30,8 @@ export default function Navbar() {
     useEffect(() => {
         setIsMobileMenuOpen(false);
         setIsWomenWearOpen(false);
+        setIsMenswearOpen(false);
+        setIsLittleOnesOpen(false);
     }, [pathname]);
 
     // Fetch categories for dynamic menu
@@ -78,22 +83,13 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Grouping Logic - Case-insensitive and flexible matching
-    const normalize = (name: string) => name.toLowerCase().replace(/[^a-z]/g, '');
-
-    const womenWearCategories = categories.filter(c => {
-        const n = normalize(c.name);
-        return n !== 'menswear' && n !== 'mens' && n !== 'littleones' && n !== 'kids';
-    });
+    // Filter categories by mainCategory field
+    const womenWearCategories = categories.filter(c => c.mainCategory === 'Women Wear');
+    const menswearCategories = categories.filter(c => c.mainCategory === 'Menswear');
+    const littleOnesCategories = categories.filter(c => c.mainCategory === 'Little Ones');
 
     // Helper to get correct link for a category
     const getCategoryLink = (cat: { name: string, slug: string }) => {
-        const n = normalize(cat.name);
-        if (n === 'bridal' || n === 'bridaledit') return '/bridal-edit';
-        if (n === 'wedding' || n === 'weddingedit') return '/wedding-edit';
-        if (n === 'formal' || n === 'formaledit') return '/formal-edit';
-        if (n === 'menswear' || n === 'mens') return '/menswear';
-        if (n === 'littleones' || n === 'kids') return '/little-ones';
         return `/collections/${cat.slug}`;
     };
 
@@ -181,8 +177,64 @@ export default function Navbar() {
                                 </div>
                             </div>
 
-                            <Link href="/menswear" className={`${pathname === '/menswear' ? 'text-gold-champagne font-bold' : 'text-charcoal/80'} hover:text-gold-champagne transition-colors`}>Menswear</Link>
-                            <Link href="/little-ones" className={`${pathname === '/little-ones' ? 'text-gold-champagne font-bold' : 'text-charcoal/80'} hover:text-gold-champagne transition-colors`}>Little Ones</Link>
+
+                            {/* Menswear Dropdown */}
+                            <div className="group relative py-4">
+                                <Link
+                                    href="/menswear"
+                                    className={`flex items-center gap-1.5 hover:text-gold-champagne transition-colors uppercase tracking-[0.2em] outline-none ${pathname === '/menswear' || pathname.startsWith('/collections/') && menswearCategories.some(c => pathname.includes(c.slug)) ? 'text-gold-champagne font-bold' : 'text-charcoal/80'}`}
+                                >
+                                    Menswear
+                                    {menswearCategories.length > 0 && (
+                                        <span className="material-symbols-outlined text-[14px] group-hover:rotate-180 transition-transform duration-500">expand_more</span>
+                                    )}
+                                </Link>
+
+                                {menswearCategories.length > 0 && (
+                                    <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] pt-4">
+                                        <div className="bg-white shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-black/5 py-4 z-[70]">
+                                            {menswearCategories.map((cat) => (
+                                                <Link
+                                                    key={cat.id}
+                                                    href={getCategoryLink(cat)}
+                                                    className={`block px-6 py-2.5 text-[10px] tracking-[0.15em] hover:text-gold-champagne hover:bg-black/[0.02] transition-all ${pathname === getCategoryLink(cat) ? 'text-gold-champagne bg-black/[0.01]' : 'text-charcoal'}`}
+                                                >
+                                                    {cat.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Little Ones Dropdown */}
+                            <div className="group relative py-4">
+                                <Link
+                                    href="/little-ones"
+                                    className={`flex items-center gap-1.5 hover:text-gold-champagne transition-colors uppercase tracking-[0.2em] outline-none ${pathname === '/little-ones' || pathname.startsWith('/collections/') && littleOnesCategories.some(c => pathname.includes(c.slug)) ? 'text-gold-champagne font-bold' : 'text-charcoal/80'}`}
+                                >
+                                    Little Ones
+                                    {littleOnesCategories.length > 0 && (
+                                        <span className="material-symbols-outlined text-[14px] group-hover:rotate-180 transition-transform duration-500">expand_more</span>
+                                    )}
+                                </Link>
+
+                                {littleOnesCategories.length > 0 && (
+                                    <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 absolute top-full left-1/2 -translate-x-1/2 min-w-[200px] pt-4">
+                                        <div className="bg-white shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-black/5 py-4 z-[70]">
+                                            {littleOnesCategories.map((cat) => (
+                                                <Link
+                                                    key={cat.id}
+                                                    href={getCategoryLink(cat)}
+                                                    className={`block px-6 py-2.5 text-[10px] tracking-[0.15em] hover:text-gold-champagne hover:bg-black/[0.02] transition-all ${pathname === getCategoryLink(cat) ? 'text-gold-champagne bg-black/[0.01]' : 'text-charcoal'}`}
+                                                >
+                                                    {cat.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </nav>
 
                         {/* Utilities */}
@@ -201,85 +253,201 @@ export default function Navbar() {
                             <button
                                 onClick={() => setIsSearchOpen(true)}
                                 className="text-charcoal hover:text-gold-champagne transition-colors pt-1"
+                                aria-label="Open search"
                             >
                                 <span className="material-symbols-outlined text-xl">search</span>
                             </button>
 
-                            <Link href="/admin/login" className="text-charcoal hover:text-gold-champagne transition-colors pt-1 hidden md:block">
+                            <Link
+                                href="/admin/login"
+                                className="text-charcoal hover:text-gold-champagne transition-colors pt-1 hidden md:block"
+                                aria-label="Admin login"
+                            >
                                 <span className="material-symbols-outlined text-xl">person</span>
                             </Link>
 
-                            <Link href="/cart" className="text-charcoal hover:text-gold-champagne transition-colors pt-1 relative">
+                            <Link
+                                href="/cart"
+                                className="text-charcoal hover:text-gold-champagne transition-colors pt-1 relative"
+                                aria-label="View cart"
+                            >
                                 <span className="material-symbols-outlined text-xl">shopping_bag</span>
                                 <span className="absolute -top-1 -right-1 bg-gold-champagne text-white text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">0</span>
                             </Link>
 
                             <button
-                                className="lg:hidden text-charcoal"
+                                className="lg:hidden text-charcoal flex items-center justify-center w-10 h-10"
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                aria-expanded={isMobileMenuOpen}
+                                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                             >
                                 <span className="material-symbols-outlined text-2xl">
                                     {isMobileMenuOpen ? 'close' : 'menu'}
                                 </span>
                             </button>
+
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Mobile Menu Overlay */}
-            <div
-                className={`fixed inset-0 bg-white z-40 lg:hidden transition-transform duration-700 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
-                style={{ top: "0", height: "100vh", paddingTop: "120px" }}
-            >
-                <nav className="flex flex-col items-start px-12 gap-6 pt-10">
-                    <Link href="/" className="text-sm uppercase tracking-[0.2em] font-bold text-charcoal">Home</Link>
-
-                    {/* Women Wear Accordion */}
-                    <div className="w-full">
-                        <button
-                            onClick={() => setIsWomenWearOpen(!isWomenWearOpen)}
-                            className="w-full flex justify-between items-center text-sm uppercase tracking-[0.2em] font-bold text-charcoal py-2 border-b border-black/5 outline-none"
-                        >
-                            Women Wear
-                            <span className={`material-symbols-outlined transition-transform duration-300 ${isWomenWearOpen ? 'rotate-180' : ''}`}>expand_more</span>
-                        </button>
-
-                        <div className={`overflow-hidden transition-all duration-500 flex flex-col gap-4 pl-4 ${isWomenWearOpen ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
-                            {womenWearCategories.length > 0 ? (
-                                womenWearCategories.map((cat) => (
-                                    <Link
-                                        key={cat.id}
-                                        href={getCategoryLink(cat)}
-                                        className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne"
-                                    >
-                                        {cat.name}
-                                    </Link>
-                                ))
-                            ) : (
-                                <>
-                                    <Link href="/bridal-edit" className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne">Bridal Edit</Link>
-                                    <Link href="/wedding-edit" className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne">Wedding Edit</Link>
-                                    <Link href="/formal-edit" className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne">Formal Edit</Link>
-                                </>
-                            )}
-                        </div>
-                    </div>
-
-                    <Link href="/menswear" className="text-sm uppercase tracking-[0.2em] font-bold text-charcoal py-2 border-b border-black/5 w-full">Menswear</Link>
-                    <Link href="/little-ones" className="text-sm uppercase tracking-[0.2em] font-bold text-charcoal py-2 border-b border-black/5 w-full">Little Ones</Link>
-
-                    <Link
-                        href="https://wa.me/923288652263?text=I'd like to book an appointment."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm uppercase tracking-[0.2em] font-bold text-gold-champagne py-2 border-b border-black/5 w-full flex items-center gap-2"
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed inset-0 bg-white z-[60] lg:hidden flex flex-col"
+                        role="dialog"
+                        aria-modal="true"
                     >
-                        <span className="material-symbols-outlined text-sm">calendar_today</span>
-                        Book an Appointment
-                    </Link>
-                </nav>
-            </div>
+                        {/* Mobile Menu Header */}
+                        <div className="flex items-center justify-between px-6 py-6 border-b border-black/5">
+                            <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex flex-col items-start px-2">
+                                <span className="font-serif tracking-[0.2em] leading-tight text-charcoal uppercase text-xl">
+                                    LMR
+                                </span>
+                                <span className="font-sans tracking-[0.5em] text-gold-champagne uppercase ml-1 font-bold text-[7px] -mt-1">
+                                    ATELIER
+                                </span>
+                            </Link>
+                            <button
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-10 h-10 flex items-center justify-center text-charcoal"
+                                aria-label="Close menu"
+                            >
+                                <span className="material-symbols-outlined text-2xl">close</span>
+                            </button>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto px-6 py-8">
+                            <nav className="flex flex-col gap-6">
+                                <Link
+                                    href="/"
+                                    className={`text-lg uppercase tracking-[0.2em] font-bold ${pathname === '/' ? 'text-gold-champagne' : 'text-charcoal'}`}
+                                >
+                                    Home
+                                </Link>
+
+
+                                {/* Women Wear Accordion */}
+                                <div className="w-full">
+                                    <button
+                                        onClick={() => setIsWomenWearOpen(!isWomenWearOpen)}
+                                        className="w-full flex justify-between items-center text-sm uppercase tracking-[0.2em] font-bold text-charcoal py-2 border-b border-black/5 outline-none"
+                                    >
+                                        Women Wear
+                                        <span className={`material-symbols-outlined transition-transform duration-300 ${isWomenWearOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                                    </button>
+
+                                    <div className={`overflow-hidden transition-all duration-500 flex flex-col gap-4 pl-4 ${isWomenWearOpen ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
+                                        {womenWearCategories.length > 0 ? (
+                                            womenWearCategories.map((cat) => (
+                                                <Link
+                                                    key={cat.id}
+                                                    href={getCategoryLink(cat)}
+                                                    className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne"
+                                                >
+                                                    {cat.name}
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            <>
+                                                <Link href="/bridal-edit" className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne">Bridal Edit</Link>
+                                                <Link href="/wedding-edit" className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne">Wedding Edit</Link>
+                                                <Link href="/formal-edit" className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne">Formal Edit</Link>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+
+
+                                {/* Menswear Accordion */}
+                                <div className="w-full">
+                                    <button
+                                        onClick={() => setIsMenswearOpen(!isMenswearOpen)}
+                                        className="w-full flex justify-between items-center text-sm uppercase tracking-[0.2em] font-bold text-charcoal py-2 border-b border-black/5 outline-none"
+                                    >
+                                        Menswear
+                                        {menswearCategories.length > 0 && (
+                                            <span className={`material-symbols-outlined transition-transform duration-300 ${isMenswearOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                                        )}
+                                    </button>
+
+                                    {menswearCategories.length > 0 && (
+                                        <div className={`overflow-hidden transition-all duration-500 flex flex-col gap-4 pl-4 ${isMenswearOpen ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
+                                            {menswearCategories.map((cat) => (
+                                                <Link
+                                                    key={cat.id}
+                                                    href={getCategoryLink(cat)}
+                                                    className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne"
+                                                >
+                                                    {cat.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Little Ones Accordion */}
+                                <div className="w-full">
+                                    <button
+                                        onClick={() => setIsLittleOnesOpen(!isLittleOnesOpen)}
+                                        className="w-full flex justify-between items-center text-sm uppercase tracking-[0.2em] font-bold text-charcoal py-2 border-b border-black/5 outline-none"
+                                    >
+                                        Little Ones
+                                        {littleOnesCategories.length > 0 && (
+                                            <span className={`material-symbols-outlined transition-transform duration-300 ${isLittleOnesOpen ? 'rotate-180' : ''}`}>expand_more</span>
+                                        )}
+                                    </button>
+
+                                    {littleOnesCategories.length > 0 && (
+                                        <div className={`overflow-hidden transition-all duration-500 flex flex-col gap-4 pl-4 ${isLittleOnesOpen ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
+                                            {littleOnesCategories.map((cat) => (
+                                                <Link
+                                                    key={cat.id}
+                                                    href={getCategoryLink(cat)}
+                                                    className="text-[11px] uppercase tracking-[0.15em] text-charcoal/60 hover:text-gold-champagne"
+                                                >
+                                                    {cat.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <Link
+                                    href="https://wa.me/923288652263?text=I'd like to book an appointment."
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm uppercase tracking-[0.2em] font-bold text-gold-champagne py-2 border-b border-black/5 w-full flex items-center gap-2"
+                                >
+                                    <span className="material-symbols-outlined text-sm">calendar_today</span>
+                                    Book an Appointment
+                                </Link>
+                            </nav>
+                        </div>
+
+                        {/* Mobile Menu Footer */}
+                        <div className="p-6 border-t border-black/5 bg-gray-50/50">
+                            <Link
+                                href="/admin/login"
+                                className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] font-bold text-charcoal mb-6"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                <span className="material-symbols-outlined">person</span>
+                                Member Login
+                            </Link>
+                            <p className="text-[10px] text-charcoal/40 uppercase tracking-widest text-center">
+                                &copy; {new Date().getFullYear()} LMR Atelier. All Rights Reserved.
+                            </p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
 
             {/* Search Overlay */}
             <AnimatePresence>
