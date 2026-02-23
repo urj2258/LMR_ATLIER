@@ -73,7 +73,7 @@ export default function HeroCarousel() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
-                    className="mb-8 md:mb-0 md:absolute md:bottom-16 md:left-12 z-20 w-full md:w-auto px-6 md:px-0"
+                    className="absolute bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 md:left-12 md:translate-x-0 z-20 w-[calc(100%-3rem)] md:w-auto"
                 >
                     <Link
                         href="https://wa.me/923288652263?text=I'd like to book an appointment."
@@ -81,6 +81,7 @@ export default function HeroCarousel() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-3 border border-white/40 hover:border-white/80 text-white px-10 py-4 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-medium transition-all backdrop-blur-sm bg-white/[0.05] hover:bg-white/[0.1] rounded-sm w-full md:w-auto"
                     >
+                        <span className="material-symbols-outlined text-sm">calendar_today</span>
                         Book an Appointment
                     </Link>
                 </motion.div>

@@ -17,7 +17,7 @@ export default function NewsletterPopup() {
         if (!isClosed && !isSubscribed) {
             const timer = setTimeout(() => {
                 setIsVisible(true);
-            }, 4000);
+            }, 2500);
             return () => clearTimeout(timer);
         }
     }, []);
@@ -50,93 +50,84 @@ export default function NewsletterPopup() {
     if (!isVisible || pathname?.startsWith('/admin')) return null;
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
-            <div className="relative w-full max-w-[900px] bg-white flex">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+            <div className="relative w-full max-w-[900px] bg-white flex flex-col md:flex-row shadow-2xl overflow-hidden rounded-sm">
 
                 {/* Close Button */}
                 <button
                     onClick={handleClose}
-                    className="absolute top-[20px] right-[20px] z-10 w-[30px] h-[30px] flex items-center justify-center text-[#666] hover:text-black transition-colors"
+                    className="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-black transition-colors rounded-full hover:bg-gray-100"
                     aria-label="Close"
                 >
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <line x1="2" y1="2" x2="18" y2="18" />
-                        <line x1="18" y1="2" x2="2" y2="18" />
-                    </svg>
+                    <span className="material-symbols-outlined text-xl">close</span>
                 </button>
 
-                {/* Image Section - Left */}
-                <div className="hidden md:block w-[450px] relative">
+                {/* Image Section - Left (Hidden on small mobile) */}
+                <div className="hidden md:block w-1/2 relative bg-gray-50 min-h-[400px]">
                     <Image
                         src="/images/placeholders/bridal_1_1.png"
                         alt="LMR ATELIER"
                         fill
                         className="object-cover"
                         priority
+                        sizes="450px"
                     />
                 </div>
 
-                {/* Content Section - Right */}
-                <div className="w-full md:w-[450px] bg-white px-[60px] py-[80px] flex flex-col justify-center">
+                {/* Content Section - Right (Full width on mobile) */}
+                <div className="w-full md:w-1/2 bg-white px-8 py-12 md:px-14 md:py-20 flex flex-col justify-center">
 
-                    {/* Logo/Brand */}
-                    <div className="text-center mb-[30px]">
-                        <div className="flex flex-col items-center justify-center">
-                            <span className="font-serif tracking-[0.15em] text-black uppercase text-[32px] leading-none">LMR</span>
-                            <span className="font-sans tracking-[0.4em] text-[#C9A961] uppercase text-[11px] mt-[2px]">ATELIER</span>
+                    {/* Brand */}
+                    <div className="text-center mb-8">
+                        <div className="flex flex-col items-center justify-center scale-90 md:scale-100">
+                            <span className="font-serif tracking-[0.2em] text-black uppercase text-2xl md:text-3xl leading-none">LMR</span>
+                            <span className="font-sans tracking-[0.5em] text-[#C9A961] uppercase text-[9px] md:text-[11px] mt-1 font-bold">ATELIER</span>
                         </div>
                     </div>
 
-
-                    {/* Heading */}
-                    <h2 className="text-[28px] font-normal text-black text-center mb-[15px]" style={{ fontFamily: 'serif', lineHeight: '1.3' }}>
-                        Signup for newsletter
+                    <h2 className="text-xl md:text-2xl font-serif text-black text-center mb-4 leading-tight">
+                        Our Newsletter
                     </h2>
 
-                    {/* Subtext */}
-                    <p className="text-[14px] text-[#666] text-center mb-[35px]" style={{ lineHeight: '1.6' }}>
-                        Stay up to date with latest collections<br />and news from LMR ATELIER
+                    <p className="text-[13px] md:text-sm text-gray-500 text-center mb-8 leading-relaxed max-w-xs mx-auto">
+                        Be the first to discover our latest collections and exclusive updates from LMR ATELIER.
                     </p>
 
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-[15px]">
+                    <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto w-full">
                         <div>
                             <input
                                 type="text"
-                                placeholder="Name"
+                                placeholder="Your Name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full h-[45px] px-[15px] text-[14px] text-black border border-[#ddd] outline-none focus:border-[#999] transition-colors"
-                                style={{ fontFamily: 'sans-serif' }}
+                                className="w-full h-12 px-4 text-sm text-black border border-gray-200 outline-none focus:border-gold-champagne transition-colors bg-gray-50/50"
                                 required
                             />
                         </div>
                         <div>
                             <input
                                 type="email"
-                                placeholder="Email"
+                                placeholder="Email Address"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full h-[45px] px-[15px] text-[14px] text-black border border-[#ddd] outline-none focus:border-[#999] transition-colors"
-                                style={{ fontFamily: 'sans-serif' }}
+                                className="w-full h-12 px-4 text-sm text-black border border-gray-200 outline-none focus:border-gold-champagne transition-colors bg-gray-50/50"
                                 required
                             />
                         </div>
                         <button
                             type="submit"
-                            className="w-full h-[45px] bg-black text-white text-[14px] font-medium hover:bg-[#333] transition-colors"
-                            style={{ fontFamily: 'sans-serif' }}
+                            className="w-full h-12 bg-black text-white text-xs font-bold uppercase tracking-[0.2em] hover:bg-neutral-800 transition-all shadow-sm active:scale-[0.98]"
                         >
-                            Subscribe now
+                            Enlist Now
                         </button>
                     </form>
 
-                    {/* Footer Disclaimer */}
-                    <p className="text-[11px] text-[#999] text-center mt-[25px]" style={{ lineHeight: '1.5' }}>
-                        You are signing up to receive communication via email and can unsubscribe at any time.
+                    <p className="text-[10px] text-gray-400 text-center mt-8 leading-relaxed px-4">
+                        By subscribing, you agree to receive communications from LMR ATELIER. You can opt-out at any time.
                     </p>
                 </div>
             </div>
         </div>
     );
 }
+
