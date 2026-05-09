@@ -8,7 +8,7 @@
 
 ---
 
-## 🌟 The Vision
+##  The Vision
 
 *“Honoring the past, dressing the future.”*
 
@@ -16,31 +16,31 @@ This project is a labor of love, born from the desire to expand a lifelong commi
 
 ---
 
-## ✨ Features
+##  Features
 
-### 🏛️ Exquisite Collections
+###  Exquisite Collections
 - **Bridal Edit**: Timeless elegance and grandeur for the modern bride.
 - **Wedding Edit**: Sophisticated silhouettes for every festive ceremony.
 - **Formal Edit**: Luxury evening wear featuring intricate hand-embellishment.
 - **Menswear**: Traditional Sherwanis and Kurtas with a contemporary edge.
 - **Little Ones**: Delightful miniature couture for the youngest members of the family.
 
-### 🖼️ Visual Experience
+###  Visual Experience
 - **High-Definition Galleries**: Immersive product views powered by **Cloudinary**.
 - **Dynamic Interaction**: Hover effects for fabric detail and smooth mobile swipers.
 - **Resilient UI**: Intelligent image sanitization ensures no broken icons, falling back to an elegant placeholder for coming-soon items.
 
-### 🔐 Secure Administration
+###  Secure Administration
 - **Admin Portal**: A dedicated workspace for catalog management.
 - **Product Editor**: Full-featured UI to manage titles, prices, descriptions, and dynamic slugs.
 - **Gallery Manager**: Drag-and-drop image reordering, primary thumbnail selection, and multi-file uploads.
 
-### 💬 Direct Consultations
+###  Direct Consultations
 - **WhatsApp Integration**: Every product page features a direct link to our consultants, pre-filled with the product's SKU and title for seamless inquiry.
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Frontend**: [Next.js 15](https://nextjs.org/) (App Router), [React 19](https://react.dev/)
 - **Styling**: [Vanilla CSS](https://developer.mozilla.org/en-US/docs/Web/CSS), [Framer Motion](https://www.framer.com/motion/)
@@ -50,7 +50,7 @@ This project is a labor of love, born from the desire to expand a lifelong commi
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - **Node.js**: 20.x or higher
@@ -84,7 +84,7 @@ This project is a labor of love, born from the desire to expand a lifelong commi
 
 ---
 
-## 📦 Data Management
+##  Data Management
 
 The project includes a suite of Python scripts to manage the product catalog directly from local asset folders.
 
@@ -102,7 +102,7 @@ python scripts/resync_product_images.py --live
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 ├── public/             # Static assets (logo, placeholders)
@@ -118,7 +118,7 @@ python scripts/resync_product_images.py --live
 
 ---
 
-## 🎨 Admin Portal
+##  Admin Portal
 
 The Admin Portal is accessible at `/admin`. It provides a "portal within a portal" experience:
 - **Dashboard**: High-level stats on products and categories.
