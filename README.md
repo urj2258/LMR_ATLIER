@@ -2,31 +2,9 @@
 
 ## Product Management
 
-### How to re-sync product images
-If images are missing or out of sync with your local `E:\LMR_ATLIER\LMR` folders, run the resync script. This will upload all images (cover + gallery) to Cloudinary and update the database records.
 
-```powershell
-# Set your admin token
-$env:ADMIN_TOKEN="secure_admin_token_value"
 
-# Dry run (recommended first)
-python scripts/resync_product_images.py --dry-run
 
-# Live resync
-python scripts/resync_product_images.py --live
-```
-
-### How to edit products in Admin
-1. Navigate to `http://localhost:3000/admin/products`
-2. Find the product you want to modify and click **Edit**.
-3. In the Edit form, you can:
-   - Update **Title**, **Category**, and **Description**.
-   - Manage the **Image Gallery**:
-     - **Upload**: Select multiple files to add to the gallery.
-     - **Reorder**: Use arrow buttons to change image sequence.
-     - **Set Primary**: Click "Make Primary" to set the first image (thumbnail).
-     - **Remove**: Delete images from the product record.
-4. Click **Save Product** to apply changes.
 
 ---
 
@@ -71,32 +49,6 @@ This project is a labor of love, born from the desire to expand a lifelong commi
 - Node.js 20+
 - npm or yarn
 
-### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/lmr-atelier.git
-   cd lmr-atelier/frontend
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Setup:**
-   Create a `.env.local` file and add your credentials:
-   ```env
-   NEXT_PUBLIC_FIREBASE_API_KEY=your_key
-   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_name
-   # Add other required keys from .env.example
-   ```
-
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-
----
 
 *Crafted with passion for LMR ATELIER.*
