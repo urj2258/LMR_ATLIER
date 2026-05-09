@@ -1,5 +1,36 @@
 # LMR ATELIER | Luxury Pakistani Couture
 
+## Product Management
+
+### How to re-sync product images
+If images are missing or out of sync with your local `E:\LMR_ATLIER\LMR` folders, run the resync script. This will upload all images (cover + gallery) to Cloudinary and update the database records.
+
+```powershell
+# Set your admin token
+$env:ADMIN_TOKEN="secure_admin_token_value"
+
+# Dry run (recommended first)
+python scripts/resync_product_images.py --dry-run
+
+# Live resync
+python scripts/resync_product_images.py --live
+```
+
+### How to edit products in Admin
+1. Navigate to `http://localhost:3000/admin/products`
+2. Find the product you want to modify and click **Edit**.
+3. In the Edit form, you can:
+   - Update **Title**, **Category**, and **Description**.
+   - Manage the **Image Gallery**:
+     - **Upload**: Select multiple files to add to the gallery.
+     - **Reorder**: Use arrow buttons to change image sequence.
+     - **Set Primary**: Click "Make Primary" to set the first image (thumbnail).
+     - **Remove**: Delete images from the product record.
+4. Click **Save Product** to apply changes.
+
+---
+
+
 ![LMR ATELIER Banner](https://placehold.co/1200x400/121212/bd870a?text=LMR+ATELIER)
 
 > **Handcrafted Luxury Karhai - A heritage of artisanal excellence.**

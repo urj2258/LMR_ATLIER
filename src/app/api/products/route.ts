@@ -1,9 +1,21 @@
 
 import { NextResponse } from 'next/server';
-import { getProducts, addProduct, deleteProduct, Product } from '@/utils/db';
+import { getProducts, getProductById, addProduct, updateProduct, deleteProduct, Product } from '@/utils/db';
+import { generateSku } from '@/utils/skuGenerator';
 
 
-export async function GET() {
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (id) {
+        const product = await getProductById(id);
+        if (!product) {
+            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+        }
+        return NextResponse.json(product);
+    }
+
     const products = await getProducts();
     return NextResponse.json(products);
 }
@@ -15,6 +27,20 @@ export async function POST(request: Request) {
         // Basic validation
         if (!body.title || !body.category) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        }
+
+        // Auto-generate SKU if not provided
+        let sku = body.sku || '';
+        if (!sku) {
+            const existingProducts = await getProducts();
+            const existingSkus = existingProducts
+                .map((p: Product) => p.sku)
+                .filter(Boolean) as string[];
+            sku = generateSku(
+                body.category,
+                body.subcategory || '',
+                existingSkus
+            ) || '';
         }
 
         const newProduct: Product = {
@@ -29,7 +55,7 @@ export async function POST(request: Request) {
             color: body.color || '',
             fabric: body.fabric || '',
             details: body.details || '',
-            sku: body.sku || '',
+            sku,
             sizeChart: body.sizeChart || '',
             measurementGuide: body.measurementGuide || '',
             deliveryTime: body.deliveryTime || '',
@@ -42,6 +68,23 @@ export async function POST(request: Request) {
         await addProduct(newProduct);
 
         return NextResponse.json(newProduct, { status: 201 });
+    } catch (error) {
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    }
+}
+
+export async function PUT(request: Request) {
+    try {
+        const body = await request.json();
+        
+        if (!body.id) {
+            return NextResponse.json({ error: 'ID is required for update' }, { status: 400 });
+        }
+
+        const { id, ...updateData } = body;
+        await updateProduct(id, updateData);
+        
+        return NextResponse.json({ id, ...updateData });
     } catch (error) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }

@@ -1,11 +1,20 @@
 
 import { notFound } from "next/navigation";
-import { getProductBySlug, getProductsByCategory } from "@/utils/db";
+import { getProducts, getProductsByCategory } from "@/utils/db";
+import { slugify } from "@/utils/slugify";
 import ProductDetailClient from "@/components/ProductDetailClient";
 
 export default async function ProductDetail({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const product = await getProductBySlug(slug);
+    const decodedSlug = decodeURIComponent(slug);
+    const slugParam = slugify(decodedSlug);
+
+    const allProducts = await getProducts();
+    const product = allProducts.find(p => 
+        slugify(p.slug || "") === slugParam || 
+        slugify(p.title || "") === slugParam ||
+        slugify(p.sku || "") === slugParam
+    );
 
     if (!product) {
         return notFound();

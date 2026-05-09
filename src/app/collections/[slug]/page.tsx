@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
-import { getCategories, getProductsByCategory, getProductsBySubcategory } from "@/utils/db";
+import { getCategories, getProductsByCategory, getAllProductsByCategory } from "@/utils/db";
+import { slugify } from "@/utils/slugify";
 
 export const dynamic = 'force-dynamic';
 
@@ -33,8 +34,13 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
     let breadcrumbs = [];
 
     if (category.mainCategory) {
-        // It's a subcategory
-        products = await getProductsBySubcategory(category.mainCategory, category.name);
+        // It's a subcategory - fetch all in main category and filter by slugified subcategory
+        const allProducts = await getAllProductsByCategory(category.mainCategory);
+        
+        // Match by slugified name (e.g. "GROOM" -> "groom", "Bridal Edit" -> "bridal-edit")
+        // We match against the slug from the URL
+        products = allProducts.filter(p => slugify(p.subcategory || "") === slug.toLowerCase());
+        
         breadcrumbs = [
             { name: "Home", href: "/" },
             { name: category.mainCategory, href: `/${category.mainCategory.toLowerCase().replace(/ /g, '-')}` },

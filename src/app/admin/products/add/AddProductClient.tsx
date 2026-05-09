@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ImageCropper from "@/components/admin/ImageCropper";
+import { generateSku, getSkuPrefix } from "@/utils/skuGenerator";
 
 interface ImageItem {
     id: string;
@@ -17,6 +18,7 @@ export default function AddProductClient() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [categories, setCategories] = useState<any[]>([]);
+    const [existingSkus, setExistingSkus] = useState<string[]>([]);
 
     // Multiple Images State
     const [images, setImages] = useState<ImageItem[]>([]);
@@ -37,11 +39,32 @@ export default function AddProductClient() {
 
     useEffect(() => {
         const load = async () => {
-            const data = await (await fetch("/api/categories")).json();
-            setCategories(data);
+            const [catData, prodData] = await Promise.all([
+                fetch("/api/categories").then(r => r.json()),
+                fetch("/api/products").then(r => r.json()),
+            ]);
+            setCategories(catData);
+            setExistingSkus(
+                (prodData as any[]).map((p: any) => p.sku).filter(Boolean)
+            );
         };
         load();
     }, []);
+
+    // Auto-generate SKU when category changes
+    const handleCategoryChange = (newCategory: string) => {
+        setCategory(newCategory);
+
+        // Find if this category is a subcategory
+        const selectedCat = categories.find(c => c.name === newCategory);
+        const parentCategory = selectedCat?.mainCategory || newCategory;
+        const subcategory = selectedCat?.mainCategory ? newCategory : '';
+
+        const generated = generateSku(parentCategory, subcategory, existingSkus);
+        if (generated) {
+            setSku(generated);
+        }
+    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -323,7 +346,7 @@ export default function AddProductClient() {
                             className="w-full bg-transparent border-0 border-b border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 transition-colors appearance-none cursor-pointer outline-none"
                             id="category"
                             value={category}
-                            onChange={(e) => setCategory(e.target.value)}
+                            onChange={(e) => handleCategoryChange(e.target.value)}
                             required
                         >
                             <option value="" disabled>Select a collection</option>
@@ -354,315 +377,112 @@ export default function AddProductClient() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <label className="block text-[10px] uppercase tracking-widest font-bold text-black/60 mb-2" htmlFor="sku">SKU / Reference Number</label>
-                                <input
-                                    className="w-full bg-transparent border-0 border-b border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 transition-colors placeholder:text-black/20 outline-none"
-                                    id="sku"
-                                    placeholder="e.g. MB 8"
-                                    type="text"
-                                    value={sku}
-                                    onChange={(e) => setSku(e.target.value)}
-                                />
-                            </div>
-                        </div>
+                <div>
+                    <label className="block text-[10px] uppercase tracking-widest font-bold text-black/60 mb-2" htmlFor="sku">SKU / Reference Number</label>
+                    <input
+                        className="w-full bg-transparent border-0 border-b border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 transition-colors placeholder:text-black/20 outline-none"
+                        id="sku"
+                        placeholder="Auto-generated, e.g. LMR-BR-001"
+                        type="text"
+                        value={sku}
+                        onChange={(e) => setSku(e.target.value)}
+                    />
+                    {sku && (
+                        <p className="text-[9px] uppercase tracking-[0.1em] text-black/30 mt-1 italic font-serif">
+                            Auto-generated — you can still edit manually
+                        </p>
+                    )}
+                </div>
 
-                        {/* Accordion Content Sections */}
-                        <div className="border-t border-black/10 pt-8 mt-8">
-                            <h3 className="text-[11px] uppercase tracking-[0.2em] font-bold text-black/80 mb-6">Product Detail Page Content</h3>
+                {/* Accordion Content Sections */}
+                <div className="border-t border-black/10 pt-8 mt-8">
+                    <h3 className="text-[11px] uppercase tracking-[0.2em] font-bold text-black/80 mb-6">Product Detail Page Content</h3>
 
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Size Chart
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={4}
-                                    value={sizeChart}
-                                    onChange={(e) => setSizeChart(e.target.value)}
-                                    placeholder="Enter size chart information..."
-                                />
-                            </details>
+                    <details className="group mb-4">
+                        <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">expand_more</span>
+                            Size Chart
+                        </summary>
+                        <textarea
+                            className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
+                            rows={4}
+                            value={sizeChart}
+                            onChange={(e) => setSizeChart(e.target.value)}
+                            placeholder="Enter size chart information..."
+                        />
+                    </details>
 
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Measurement Guide
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={4}
-                                    value={measurementGuide}
-                                    onChange={(e) => setMeasurementGuide(e.target.value)}
-                                    placeholder="Enter measurement guide..."
-                                />
-                            </details>
+                    <details className="group mb-4">
+                        <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">expand_more</span>
+                            Measurement Guide
+                        </summary>
+                        <textarea
+                            className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
+                            rows={4}
+                            value={measurementGuide}
+                            onChange={(e) => setMeasurementGuide(e.target.value)}
+                            placeholder="Enter measurement guide..."
+                        />
+                    </details>
 
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Delivery Time
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={deliveryTime}
-                                    onChange={(e) => setDeliveryTime(e.target.value)}
-                                    placeholder="e.g. 8 to 12 weeks"
-                                />
-                            </details>
+                    <details className="group mb-4">
+                        <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">expand_more</span>
+                            Delivery Time
+                        </summary>
+                        <textarea
+                            className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
+                            rows={3}
+                            value={deliveryTime}
+                            onChange={(e) => setDeliveryTime(e.target.value)}
+                            placeholder="e.g. 8 to 12 weeks"
+                        />
+                    </details>
 
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Shipping Information
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={shipping}
-                                    onChange={(e) => setShipping(e.target.value)}
-                                    placeholder="e.g. We deliver worldwide. Shipping rates may apply."
-                                />
-                            </details>
+                    <details className="group mb-4">
+                        <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">expand_more</span>
+                            Shipping Information
+                        </summary>
+                        <textarea
+                            className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
+                            rows={3}
+                            value={shipping}
+                            onChange={(e) => setShipping(e.target.value)}
+                            placeholder="e.g. We deliver worldwide. Shipping rates may apply."
+                        />
+                    </details>
 
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Customization
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={customization}
-                                    onChange={(e) => setCustomization(e.target.value)}
-                                    placeholder="e.g. For customization please contact our fashion consultant"
-                                />
-                            </details>
+                    <details className="group mb-4">
+                        <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">expand_more</span>
+                            Customization
+                        </summary>
+                        <textarea
+                            className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
+                            rows={3}
+                            value={customization}
+                            onChange={(e) => setCustomization(e.target.value)}
+                            placeholder="e.g. For customization please contact our fashion consultant"
+                        />
+                    </details>
 
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Price Information
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={priceInfo}
-                                    onChange={(e) => setPriceInfo(e.target.value)}
-                                    placeholder="Enter pricing details or payment options..."
-                                />
-                            </details>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <label className="block text-[10px] uppercase tracking-widest font-bold text-black/60 mb-2" htmlFor="sku">SKU / Reference Number</label>
-                                <input
-                                    className="w-full bg-transparent border-0 border-b border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 transition-colors placeholder:text-black/20 outline-none"
-                                    id="sku"
-                                    placeholder="e.g. MB 8"
-                                    type="text"
-                                    value={sku}
-                                    onChange={(e) => setSku(e.target.value)}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Accordion Content Sections */}
-                        <div className="border-t border-black/10 pt-8 mt-8">
-                            <h3 className="text-[11px] uppercase tracking-[0.2em] font-bold text-black/80 mb-6">Product Detail Page Content</h3>
-
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Size Chart
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={4}
-                                    value={sizeChart}
-                                    onChange={(e) => setSizeChart(e.target.value)}
-                                    placeholder="Enter size chart information..."
-                                />
-                            </details>
-
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Measurement Guide
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={4}
-                                    value={measurementGuide}
-                                    onChange={(e) => setMeasurementGuide(e.target.value)}
-                                    placeholder="Enter measurement guide..."
-                                />
-                            </details>
-
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Delivery Time
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={deliveryTime}
-                                    onChange={(e) => setDeliveryTime(e.target.value)}
-                                    placeholder="e.g. 8 to 12 weeks"
-                                />
-                            </details>
-
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Shipping Information
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={shipping}
-                                    onChange={(e) => setShipping(e.target.value)}
-                                    placeholder="e.g. We deliver worldwide. Shipping rates may apply."
-                                />
-                            </details>
-
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Customization
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={customization}
-                                    onChange={(e) => setCustomization(e.target.value)}
-                                    placeholder="e.g. For customization please contact our fashion consultant"
-                                />
-                            </details>
-
-                            <details className="group mb-4">
-                                <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">expand_more</span>
-                                    Price Information
-                                </summary>
-                                <textarea
-                                    className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                    rows={3}
-                                    value={priceInfo}
-                                    onChange={(e) => setPriceInfo(e.target.value)}
-                                    placeholder="Enter pricing details or payment options..."
-                                />
-                            </details>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] uppercase tracking-widest font-bold text-black/60 mb-2" htmlFor="sku">SKU / Reference Number</label>
-                            <input
-                                className="w-full bg-transparent border-0 border-b border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 transition-colors placeholder:text-black/20 outline-none"
-                                id="sku"
-                                placeholder="e.g. MB 8"
-                                type="text"
-                                value={sku}
-                                onChange={(e) => setSku(e.target.value)}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Accordion Content Sections */}
-                    <div className="border-t border-black/10 pt-8 mt-8">
-                        <h3 className="text-[11px] uppercase tracking-[0.2em] font-bold text-black/80 mb-6">Product Detail Page Content</h3>
-
-                        <details className="group mb-4">
-                            <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">expand_more</span>
-                                Size Chart
-                            </summary>
-                            <textarea
-                                className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                rows={4}
-                                value={sizeChart}
-                                onChange={(e) => setSizeChart(e.target.value)}
-                                placeholder="Enter size chart information..."
-                            />
-                        </details>
-
-                        <details className="group mb-4">
-                            <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">expand_more</span>
-                                Measurement Guide
-                            </summary>
-                            <textarea
-                                className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                rows={4}
-                                value={measurementGuide}
-                                onChange={(e) => setMeasurementGuide(e.target.value)}
-                                placeholder="Enter measurement guide..."
-                            />
-                        </details>
-
-                        <details className="group mb-4">
-                            <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">expand_more</span>
-                                Delivery Time
-                            </summary>
-                            <textarea
-                                className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                rows={3}
-                                value={deliveryTime}
-                                onChange={(e) => setDeliveryTime(e.target.value)}
-                                placeholder="e.g. 8 to 12 weeks"
-                            />
-                        </details>
-
-                        <details className="group mb-4">
-                            <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">expand_more</span>
-                                Shipping Information
-                            </summary>
-                            <textarea
-                                className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                rows={3}
-                                value={shipping}
-                                onChange={(e) => setShipping(e.target.value)}
-                                placeholder="e.g. We deliver worldwide. Shipping rates may apply."
-                            />
-                        </details>
-
-                        <details className="group mb-4">
-                            <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">expand_more</span>
-                                Customization
-                            </summary>
-                            <textarea
-                                className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                rows={3}
-                                value={customization}
-                                onChange={(e) => setCustomization(e.target.value)}
-                                placeholder="e.g. For customization please contact our fashion consultant"
-                            />
-                        </details>
-
-                        <details className="group mb-4">
-                            <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-sm">expand_more</span>
-                                Price Information
-                            </summary>
-                            <textarea
-                                className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
-                                rows={3}
-                                value={priceInfo}
-                                onChange={(e) => setPriceInfo(e.target.value)}
-                                placeholder="Enter pricing details or payment options..."
-                            />
-                        </details>
-                    </div>
-
+                    <details className="group mb-4">
+                        <summary className="cursor-pointer list-none text-[10px] uppercase tracking-widest font-bold text-black/60 mb-3 flex items-center gap-2">
+                            <span className="material-symbols-outlined text-sm">expand_more</span>
+                            Price Information
+                        </summary>
+                        <textarea
+                            className="w-full bg-white border border-black/10 focus:border-[#bd870a] focus:ring-0 text-sm py-3 px-4 transition-colors placeholder:text-black/20 outline-none resize-none"
+                            rows={3}
+                            value={priceInfo}
+                            onChange={(e) => setPriceInfo(e.target.value)}
+                            placeholder="Enter pricing details or payment options..."
+                        />
+                    </details>
                 </div>
 
                 <div className="flex items-center justify-end gap-6 pt-6">

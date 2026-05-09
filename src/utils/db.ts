@@ -1,7 +1,17 @@
 
 import { adminDb } from '@/lib/firebaseAdmin';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, doc, setDoc, query, where, deleteDoc, limit } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, query, where, deleteDoc, limit, updateDoc, getDoc } from 'firebase/firestore';
+
+// ... (existing code)
+
+export async function updateProduct(id: string, data: Partial<Product>): Promise<void> {
+    if (adminDb) {
+        await adminDb.collection('products').doc(id).update(data);
+    } else {
+        await updateDoc(doc(db, 'products', id), data as any);
+    }
+}
 
 export interface Category {
     id: string;
@@ -147,6 +157,18 @@ export async function getAllProductsByCategory(category: string): Promise<Produc
     const q = query(collection(db, 'products'), where('category', '==', category));
     const snap = await getDocs(q);
     return snap.docs.map(doc => doc.data() as Product);
+}
+
+export async function getProductById(id: string): Promise<Product | null> {
+    if (adminDb) {
+        const doc = await adminDb.collection('products').doc(id).get();
+        if (!doc.exists) return null;
+        return doc.data() as Product;
+    }
+    const docRef = doc(db, 'products', id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    return docSnap.data() as Product;
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {

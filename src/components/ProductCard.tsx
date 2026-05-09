@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { slugify } from "@/utils/slugify";
+import { sanitizeImages, getPrimaryImage, getSecondaryImage } from "@/utils/imageHelper";
 
 interface ProductCardProps {
     src: string;
@@ -21,8 +23,17 @@ export default function ProductCard({
     aspectRatio = "aspect-[3/4]",
     slug = ""
 }: ProductCardProps) {
-    // Generate slug from title if not provided
-    const productSlug = slug || title.toLowerCase().replace(/[^a-z0-{}-]+/g, '-');
+    // Use provided slug or generate from title using canonical slugify
+    const productSlug = slug || slugify(title);
+
+    // Sanitize images using centralized helper
+    const sanitizedImages = sanitizeImages([src, secondarySrc]);
+    const primary = getPrimaryImage(sanitizedImages);
+    const secondary = getSecondaryImage(sanitizedImages);
+
+    if (primary === '/placeholder.png' && src) {
+        console.warn("Product has no valid images", title, { src, secondarySrc });
+    }
 
     return (
         <motion.div
@@ -35,20 +46,20 @@ export default function ProductCard({
                 <div className={`${aspectRatio} bg-gray-50 dark:bg-zinc-900 overflow-hidden`}>
                     {/* Primary Image */}
                     <Image
-                        src={src}
+                        src={primary}
                         alt={title}
                         fill
-                        className={`object-cover transition-all duration-700 ease-in-out ${secondarySrc ? 'group-hover:opacity-0 group-hover:scale-105' : 'group-hover:scale-105'
+                        className={`object-cover transition-all duration-700 ease-in-out ${secondary ? 'group-hover:opacity-0 group-hover:scale-105' : 'group-hover:scale-105'
                             }`}
                         sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
                         loading="lazy"
                     />
 
                     {/* Secondary Image (Hover Effect - Desktop Only) */}
-                    {secondarySrc && (
+                    {secondary && (
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out hidden lg:block">
                             <Image
-                                src={secondarySrc}
+                                src={secondary}
                                 alt={`${title} - Detail`}
                                 fill
                                 className="object-cover scale-105 group-hover:scale-100 transition-transform duration-700 ease-in-out"

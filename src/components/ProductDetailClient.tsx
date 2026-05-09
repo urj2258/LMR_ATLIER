@@ -6,10 +6,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import type { Product } from "@/utils/db";
+import { sanitizeImages } from "@/utils/imageHelper";
 
 export default function ProductDetailClient({ product, relatedProducts }: { product: Product, relatedProducts: Product[] }) {
     const [selectedImage, setSelectedImage] = useState(0);
-    const { title, images, description, color, fabric, details, category, sku, sizeChart, measurementGuide, deliveryTime, shipping, customization, priceInfo } = product;
+    const { title, images: rawImages, description, color, fabric, details, category, sku, sizeChart, measurementGuide, deliveryTime, shipping, customization, priceInfo } = product;
+    
+    // Sanitize images using centralized helper
+    const images = sanitizeImages(rawImages);
+
+    if (process.env.NODE_ENV === "development") {
+        console.log("Product images:", sku, title, rawImages);
+        console.log("Sanitized images:", images);
+    }
 
     // Inquiry State
     const [inquiryStatus, setInquiryStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -76,9 +85,9 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                             transition={{ duration: 0.5 }}
                             className="aspect-[3/4.2] w-full bg-gray-50 overflow-hidden relative shadow-sm"
                         >
-                            {images[selectedImage] && (
+                            {images[selectedImage % images.length] && (
                                 <Image
-                                    src={images[selectedImage]}
+                                    src={images[selectedImage % images.length]}
                                     alt={title}
                                     fill
                                     className="object-cover"
@@ -135,7 +144,7 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
 
                             {/* WhatsApp Button */}
                             <a
-                                href={`https://wa.me/923288652263?text=${encodeURIComponent(sku ? `Hello, I'm interested in ${title} (SKU: ${sku}). Please share more details.` : `Hi, I am interested in ${title}.\nReference Image: ${images[selectedImage]}`)}`}
+                                href={`https://wa.me/923288652263?text=${encodeURIComponent(sku ? `Hello, I'm interested in ${title} (SKU: ${sku}). Please share more details.` : `Hi, I am interested in ${title}.\nReference Image: ${images[selectedImage % images.length]}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 bg-[#128C7E] hover:bg-[#075E54] text-white px-5 py-2.5 rounded text-xs font-bold uppercase tracking-wider transition-all"
@@ -272,17 +281,22 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {relatedProducts.map((p, i) => (
-                        <div key={p.id} className="relative group">
-                            <Link href={`/product/${p.slug}`}>
-                                <div className="aspect-[3/4.2] relative bg-gray-100 overflow-hidden mb-4">
-                                    <Image src={p.images[0]} alt={p.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                                </div>
-                                <h3 className="text-sm font-serif">{p.title}</h3>
-                                <p className="text-[10px] text-gray-500 uppercase tracking-widest">{p.category}</p>
-                            </Link>
-                        </div>
-                    ))}
+                    {relatedProducts.map((p, i) => {
+                        const productImages = sanitizeImages(p.images);
+                        const primaryImage = productImages[0];
+                        
+                        return (
+                            <div key={p.id} className="relative group">
+                                <Link href={`/product/${p.slug}`}>
+                                    <div className="aspect-[3/4.2] relative bg-gray-100 overflow-hidden mb-4">
+                                        <Image src={primaryImage} alt={p.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    </div>
+                                    <h3 className="text-sm font-serif">{p.title}</h3>
+                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest">{p.category}</p>
+                                </Link>
+                            </div>
+                        );
+                    })}
                 </div>
             </section>
         </div>
