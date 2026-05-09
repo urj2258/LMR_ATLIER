@@ -57,8 +57,6 @@ This project is a labor of love, born from the desire to expand a lifelong commi
 - **Python**: 3.8+ (for data management scripts)
 - **Firebase Project**: Service account keys required for server-side operations.
 
-### Installation
-
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/urj2258/LMR_ATLIER.git
